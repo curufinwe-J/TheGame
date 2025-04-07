@@ -81,18 +81,18 @@ public class Player extends Entity implements KeyListener{
 			dy= (Math.sin(angle)*MS);
 		}
 		if(forward) {
-			//if(mp[(int) (px+dx*MS)/mapS][(int) py/mapS]==0) {
+			//if(mp[(int) (px+dx*5)/mapS][(int) py/mapS]==0) {
 				py = py + dy*MS;
 			//}
-			//if(mp[(int) px/mapS][(int) (py+dy*MS)/mapS]==0) {
+			//if(mp[(int) px/mapS][(int) (py+dy*5)/mapS]==0) {
 				px = px + dx*MS;
-			//}
-		}
+			///}
+			}
 		if(back) {
-			//if(mp[(int) (px-dx*MS)/mapS][(int) py/mapS]==0) {
+			//if(mp[(int) (px-dx*5)/mapS][(int) py/mapS]==0) {
 				py = py - dy*MS;
 			//}
-			//if(mp[(int) px/mapS][(int) (py-dy*MS)/mapS]==0) {
+			//if(mp[(int) px/mapS][(int) (py-dy*5)/mapS]==0) {
 				px = px - dx*MS;
 			//}
 			

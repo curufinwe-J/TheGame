@@ -12,6 +12,8 @@ public class GamePannel extends JPanel implements Runnable{
 	public GameMap map;
 	public Player player;
 	
+	private int gameState = 0;
+	
 	//FPS display
 	private int frameCount = 0;
 	private long fpsTimer = 0;
@@ -47,13 +49,7 @@ public class GamePannel extends JPanel implements Runnable{
 			//FPS manager
 			long waitTime = TARGET_FRAME_TIME - frameTime;
 			if(waitTime>0) {
-				
-				///---PUT UPDATES HERE---
-				player.update();
 				this.update();
-				this.repaint();
-				
-				
 				try {
 					Thread.sleep(waitTime);
 				} catch (InterruptedException e) {
@@ -71,16 +67,29 @@ public class GamePannel extends JPanel implements Runnable{
 	public void init() {
 		
 	}
-	
+	///---PUT UPDATES HERE---
 	public void update() {
-		
+		player.update();
+		this.repaint();
 	}
 	
 	public void draw(Graphics g) {
-		this.map.drawGameMap(g);
-		this.player.draw(g);
-		g.setColor(Color.BLACK);
-		g.drawString("FPS: " + currentFps, 10, 20);
+		//playing game
+		if(gameState == 0) {
+			this.map.drawGameMap(g);
+			this.player.draw(g);
+			g.setColor(Color.BLACK);
+			g.drawString("FPS: " + currentFps, 10, 20);
+		}
+		//main menu
+		if(gameState == 1) {
+			g.setColor(Color.BLACK);
+			g.drawString("FPS: " + currentFps, 10, 20);
+		}
+		//pause menu
+		if(gameState == 2) {
+			
+		}
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
