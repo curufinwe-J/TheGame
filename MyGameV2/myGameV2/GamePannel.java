@@ -11,8 +11,9 @@ public class GamePannel extends JPanel implements Runnable{
 	public Thread gameLoop;
 	public GameMap map;
 	public Player player;
+	public Menu menu;
 	
-	private int gameState = 0;
+	private int gameState = 1;
 	
 	//FPS display
 	private int frameCount = 0;
@@ -28,6 +29,7 @@ public class GamePannel extends JPanel implements Runnable{
 		this.init();
 		map = new GameMap(12,12,64); 
 		player = new Player(100,100,5,5,Color.red);
+		menu = new Menu();
 		this.setFocusable(true);
 		this.addKeyListener(player);
 		fpsTimer = System.currentTimeMillis();
@@ -83,6 +85,7 @@ public class GamePannel extends JPanel implements Runnable{
 		}
 		//main menu
 		if(gameState == 1) {
+			this.menu.drawMenu(g);
 			g.setColor(Color.BLACK);
 			g.drawString("FPS: " + currentFps, 10, 20);
 		}
