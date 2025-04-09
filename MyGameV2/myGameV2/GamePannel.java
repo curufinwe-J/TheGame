@@ -1,17 +1,26 @@
 package myGameV2;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class GamePannel extends JPanel implements Runnable{
+public class GamePannel extends JPanel implements Runnable, ActionListener, KeyListener{
 
 	public Thread gameLoop;
 	public GameMap map;
 	public Player player;
-	public Menu menu;
+	public JButton start;
+	public JButton load;
+	public JButton exit;
+	
 	
 	private int gameState = 1;
 	
@@ -29,10 +38,41 @@ public class GamePannel extends JPanel implements Runnable{
 		this.init();
 		map = new GameMap(12,12,64); 
 		player = new Player(100,100,5,5,Color.red);
-		menu = new Menu();
 		this.setFocusable(true);
 		this.addKeyListener(player);
 		fpsTimer = System.currentTimeMillis();
+		buttonDetails();
+	}
+	
+	public void buttonDetails() { //Handles the details of various buttons, i.e width/ height/position etc
+		
+		start = new JButton("Start");
+		load = new JButton("Load");
+		exit = new JButton("Exit");
+		
+		start.addActionListener(this);
+		load.addActionListener(this);
+		exit.addActionListener(this);
+		
+		start.setLayout(null);
+		load.setLayout(null);
+		exit.setLayout(null);
+		
+		this.setLayout(null);
+		
+		start.setBounds(960,490,100,50);
+		load.setBounds(960,540,100,50);
+		exit.setBounds(960,590,100,50);
+		
+		start.setActionCommand("start");
+		load.setActionCommand("load");
+		exit.setActionCommand("exit");
+		
+		add(start);
+		add(load);
+		add(exit);
+		
+		
 	}
 	
 	public void run() {
@@ -85,13 +125,15 @@ public class GamePannel extends JPanel implements Runnable{
 		}
 		//main menu
 		if(gameState == 1) {
-			this.menu.drawMenu(g);
 			g.setColor(Color.BLACK);
 			g.drawString("FPS: " + currentFps, 10, 20);
 		}
 		//pause menu
 		if(gameState == 2) {
+			g.setColor(Color.black);
+			g.drawString("FPS: " + currentFps, 10, 20);
 			
+			System.out.println("test");
 		}
 	}
 	public void paintComponent(Graphics g) {
@@ -100,6 +142,70 @@ public class GamePannel extends JPanel implements Runnable{
 		this.draw(g);
 		
 		Toolkit.getDefaultToolkit().sync();
+	}
+	
+	public void clearButtons() { //clears the start menu when you click start
+		
+		start.setEnabled(false);
+		start.setVisible(false);
+		
+		load.setEnabled(false);
+		load.setVisible(false);
+		
+		exit.setEnabled(false);
+		exit.setVisible(false);
+		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) { // performs actions when button is pressed
+		String pressed = e.getActionCommand();
+		
+		if(pressed.equals("start")) {
+			
+			gameState = 0;
+			clearButtons();
+			
+		}
+		
+		if(pressed.equals("load")) {
+			
+			System.out.println("test2");
+			
+		}
+		
+		if(pressed.equals("exit")) {
+			
+			System.exit(0);
+			
+		}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gameState == 0) { //detect the esc key, and changes gameState to pause menu
+			
+			gameState = 2;
+			
+			System.out.println("ye");
+			
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+		
+		
 	}
 
 }
