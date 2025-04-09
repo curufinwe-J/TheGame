@@ -2,6 +2,7 @@ package myGameV2;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -13,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class GamePannel extends JPanel implements Runnable, ActionListener, KeyListener{
-
+	
 	public Thread gameLoop;
 	public GameMap map;
 	public Player player;
@@ -22,7 +23,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public JButton exit;
 	
 	
-	private int gameState = 1;
+	public static int gameState = 1;
 	
 	//FPS display
 	private int frameCount = 0;
@@ -54,15 +55,18 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		load.addActionListener(this);
 		exit.addActionListener(this);
 		
+		//start.setFont(new Font("Arial", Font.BOLD, 24));
+		//start.setBackground(Color.red);
+		
 		start.setLayout(null);
 		load.setLayout(null);
 		exit.setLayout(null);
 		
 		this.setLayout(null);
 		
-		start.setBounds(960,490,100,50);
-		load.setBounds(960,540,100,50);
-		exit.setBounds(960,590,100,50);
+		start.setBounds(580,390,100,50);
+		load.setBounds(580,440,100,50);
+		exit.setBounds(580,490,100,50);
 		
 		start.setActionCommand("start");
 		load.setActionCommand("load");
@@ -130,7 +134,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		}
 		//pause menu
 		if(gameState == 2) {
-			g.setColor(Color.black);
+			g.setColor(Color.gray);
 			g.drawString("FPS: " + currentFps, 10, 20);
 			
 			System.out.println("test");

@@ -21,7 +21,7 @@ public class GameWindow extends JFrame{
 		this.setMinimumSize(dim);
 		
 		game = new GamePannel();
-		game.setBackground(Color.blue);
+		game.setBackground(Color.gray);
 		this.add(game);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

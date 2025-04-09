@@ -13,7 +13,7 @@ public class Player extends Entity implements KeyListener{
 	public boolean left, right, forward, back;
 	private double dy;
 	private double dx;
-	//colision
+	//collision
 	public int[][] mp = new int[12][12]; //map position
 	public int mapS;
 	private double xn; //collision node x coordinate
