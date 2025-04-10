@@ -18,6 +18,7 @@ public class Player extends Entity implements KeyListener{
 	public int mapS;
 	private double xn; //collision node x coordinate
 	private double yn; //collision node y coordinate
+	public boolean pause;
 
 	public Player(double px, double py, int width, int height, Color color) {
 		super(px, py, width, height, color);
@@ -63,6 +64,7 @@ public class Player extends Entity implements KeyListener{
 		if((e.getKeyCode() == KeyEvent.VK_DOWN))
 			back = false;
 	}
+	
 	public void update() {
 		if(left) {
 			angle-=RS;

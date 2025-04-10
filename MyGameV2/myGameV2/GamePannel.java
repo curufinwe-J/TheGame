@@ -20,8 +20,10 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public Player player;
 	public JButton start;
 	public JButton load;
-	public JButton exit;
-	
+	public JButton exit1;
+	public JButton resume;
+	public JButton save;
+	public JButton exit2;
 	
 	public static int gameState = 1;
 	
@@ -42,39 +44,40 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		this.setFocusable(true);
 		this.addKeyListener(player);
 		fpsTimer = System.currentTimeMillis();
-		buttonDetails();
+		startDetails();
+		addKeyListener(this);
 	}
 	
-	public void buttonDetails() { //Handles the details of various buttons, i.e width/ height/position etc
+	public void startDetails() { //Handles the details of buttons for the start screen
 		
 		start = new JButton("Start");
 		load = new JButton("Load");
-		exit = new JButton("Exit");
+		exit1 = new JButton("Exit");
 		
 		start.addActionListener(this);
 		load.addActionListener(this);
-		exit.addActionListener(this);
+		exit1.addActionListener(this);
 		
 		//start.setFont(new Font("Arial", Font.BOLD, 24));
 		//start.setBackground(Color.red);
 		
 		start.setLayout(null);
 		load.setLayout(null);
-		exit.setLayout(null);
+		exit1.setLayout(null);
 		
 		this.setLayout(null);
 		
 		start.setBounds(580,390,100,50);
 		load.setBounds(580,440,100,50);
-		exit.setBounds(580,490,100,50);
+		exit1.setBounds(580,490,100,50);
 		
 		start.setActionCommand("start");
 		load.setActionCommand("load");
-		exit.setActionCommand("exit");
+		exit1.setActionCommand("exit");
 		
 		add(start);
 		add(load);
-		add(exit);
+		add(exit1);
 		
 		
 	}
@@ -106,6 +109,45 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		}
 	}
 	
+	public void stopPlayer() { //stops the player from moving
+		
+		this.player.left = false;
+		this.player.right = false;
+		this.player.forward = false;
+		this.player.back = false;
+		
+	}
+	
+	public void pauseDetails() { //handles the details of buttons for the pause screen
+		
+		resume = new JButton("Resume");
+		save = new JButton("Save");
+		exit2 = new JButton("Exit");
+		
+		resume.addActionListener(this);
+		save.addActionListener(this);
+		exit2.addActionListener(this);
+		
+		resume.setLayout(null);
+		save.setLayout(null);
+		exit2.setLayout(null);
+		
+		this.setLayout(null);
+		
+		resume.setBounds(580,390,100,50);
+		save.setBounds(580,440,100,50);
+		exit2.setBounds(580,490,100,50);
+		
+		resume.setActionCommand("resume");
+		save.setActionCommand("save");
+		exit2.setActionCommand("exit");
+		
+		add(resume);
+		add(save);
+		add(exit2);
+		
+	}
+	
 	public void start() {
 		gameLoop.start();
 	}
@@ -131,13 +173,15 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		if(gameState == 1) {
 			g.setColor(Color.BLACK);
 			g.drawString("FPS: " + currentFps, 10, 20);
+			stopPlayer();
 		}
 		//pause menu
 		if(gameState == 2) {
 			g.setColor(Color.gray);
 			g.drawString("FPS: " + currentFps, 10, 20);
+			pauseDetails();
+			stopPlayer();
 			
-			System.out.println("test");
 		}
 	}
 	public void paintComponent(Graphics g) {
@@ -148,7 +192,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
-	public void clearButtons() { //clears the start menu when you click start
+	public void clearStart() { //clears the start menu when you click start
 		
 		start.setEnabled(false);
 		start.setVisible(false);
@@ -156,8 +200,21 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		load.setEnabled(false);
 		load.setVisible(false);
 		
-		exit.setEnabled(false);
-		exit.setVisible(false);
+		exit1.setEnabled(false);
+		exit1.setVisible(false);
+		
+	}
+	
+	public void clearPause() {
+		
+		resume.setEnabled(false);
+		resume.setVisible(false);
+		
+		save.setEnabled(false);
+		save.setVisible(false);
+		
+		exit2.setEnabled(false);
+		exit2.setVisible(false);
 		
 	}
 	
@@ -168,7 +225,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		if(pressed.equals("start")) {
 			
 			gameState = 0;
-			clearButtons();
+			clearStart();
 			
 		}
 		
@@ -184,6 +241,19 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			
 		}
 		
+		if(pressed.equals("resume")) {
+			
+			gameState = 0;
+			clearPause();
+			
+		}
+			
+		if(pressed.equals("save")) {
+			
+			System.out.println("test2");
+			
+		}
+		
 	}
 
 	@Override
@@ -195,20 +265,16 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gameState == 0) { //detect the esc key, and changes gameState to pause menu
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gameState == 0) {
 			
 			gameState = 2;
 			
-			System.out.println("ye");
-			
 		}
-		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
-		
+		// TODO Auto-generated method stub
 		
 	}
 
