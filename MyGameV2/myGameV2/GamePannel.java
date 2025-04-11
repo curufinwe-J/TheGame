@@ -18,7 +18,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public Thread gameLoop;
 	public GameMap map;
 	public Player player;
-	public Enviorment enviorment;
 	public JButton start;
 	public JButton load;
 	public JButton exit1;
@@ -42,7 +41,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		this.init();
 		map = new GameMap(12,12,64); 
 		player = new Player(100,100,5,5,Color.red);
-		enviorment = new Enviorment(player.px,player.py);
 		this.setFocusable(true);
 		this.addKeyListener(player);
 		fpsTimer = System.currentTimeMillis();
@@ -80,7 +78,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		add(start);
 		add(load);
 		add(exit1);
-		
 		
 	}
 	
@@ -160,15 +157,16 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	///---PUT UPDATES HERE---
 	public void update() {
 		player.update();
-		enviorment.update();//testing
+		//enviorment.update();//testing
 		this.repaint();
 	}
 	
 	public void draw(Graphics g) {
 		//playing game
 		if(gameState == 0) {
-			this.map.drawGameMap(g);
-			this.player.draw(g);
+			//this.map.drawGameMap(g);
+			//this.player.draw(g);
+			this.player.drawPlayerView(g);
 			g.setColor(Color.BLACK);
 			g.drawString("FPS: " + currentFps, 10, 20);
 		}
@@ -189,9 +187,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		this.draw(g);
-		
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
@@ -226,59 +222,31 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		String pressed = e.getActionCommand();
 		
 		if(pressed.equals("start")) {
-			
 			gameState = 0;
 			clearStart();
-			
 		}
-		
-		if(pressed.equals("load")) {
-			
+		if(pressed.equals("load")) {	
 			System.out.println("test2");
-			
 		}
-		
-		if(pressed.equals("exit")) {
-			
+		if(pressed.equals("exit")) {	
 			System.exit(0);
-			
 		}
-		
-		if(pressed.equals("resume")) {
-			
+		if(pressed.equals("resume")) {	
 			gameState = 0;
 			clearPause();
-			
 		}
-			
-		if(pressed.equals("save")) {
-			
+		if(pressed.equals("save")) {	
 			System.out.println("test2");
-			
 		}
-		
 	}
-
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void keyTyped(KeyEvent e) {}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gameState == 0) {
-			
-			gameState = 2;
-			
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gameState == 0) {	
+			gameState = 2;	
 		}
 	}
-
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void keyReleased(KeyEvent e) {}
 }
