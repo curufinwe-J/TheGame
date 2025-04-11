@@ -45,6 +45,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		this.addKeyListener(player);
 		fpsTimer = System.currentTimeMillis();
 		startDetails();
+		pauseDetails();
 		addKeyListener(this);
 	}
 	
@@ -169,6 +170,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			this.player.drawPlayerView(g);
 			g.setColor(Color.BLACK);
 			g.drawString("FPS: " + currentFps, 10, 20);
+			clearPause();
 		}
 		//main menu
 		if(gameState == 1) {
@@ -180,9 +182,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		if(gameState == 2) {
 			g.setColor(Color.gray);
 			g.drawString("FPS: " + currentFps, 10, 20);
-			pauseDetails();
-			stopPlayer();
-			
+			revealPause();
 		}
 	}
 	public void paintComponent(Graphics g) {
@@ -204,7 +204,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 	}
 	
-	public void clearPause() {
+	public void clearPause() { //clears the pause menu
 		
 		resume.setEnabled(false);
 		resume.setVisible(false);
@@ -214,6 +214,19 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		exit2.setEnabled(false);
 		exit2.setVisible(false);
+		
+	}
+	
+	public void revealPause() { //reveals the pause menu
+		
+		resume.setEnabled(true);
+		resume.setVisible(true);
+		
+		save.setEnabled(true);
+		save.setVisible(true);
+		
+		exit2.setEnabled(true);
+		exit2.setVisible(true);
 		
 	}
 	
