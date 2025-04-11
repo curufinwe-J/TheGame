@@ -118,7 +118,7 @@ public class Player extends Entity implements KeyListener{
 	        double hDist = 1e9, hx = px, hy = py;
 	        double vDist = 1e9, vx = px, vy = py;
 
-	        // === HORIZONTAL INTERSECTION ===
+	        //HORIZONTAL INTERSECTION
 	        double aTan = -1 / Math.tan(rayAngle);
 	        double ry, rx, yo = 0, xo = 0;
 	        int dof = 0;
@@ -152,7 +152,7 @@ public class Player extends Entity implements KeyListener{
 	                dof++;
 	            }
 	        }
-	        // === VERTICAL INTERSECTION ===
+	        //VERTICAL INTERSECTION
 	        double nTan = -Math.tan(rayAngle);
 	        dof = 0;
 
@@ -186,7 +186,7 @@ public class Player extends Entity implements KeyListener{
 	                dof++;
 	            }
 	        }
-	        // === CHOOSE SHORTEST DISTANCE ===
+	        //CHOOSE SHORTEST DISTANCE
 	        double finalDist, finalX, finalY;
 	        if (vDist < hDist) {
 	            finalDist = vDist;
@@ -200,12 +200,12 @@ public class Player extends Entity implements KeyListener{
 	            g.setColor(new Color(70, 70, 70)); // horizontal shade
 	        }
 
-	        // === Draw rays in 2D map view ===
-	        // g.setColor(Color.BLUE);
+	        //draw rays in 2D map view ===
+	        //g.setColor(Color.BLUE);
 	        // g.drawLine((int) px, (int) py, (int) finalX, (int) finalY);
 
-	        // === 3D Wall Slice ===
-	        // Correct for fish-eye distortion
+	        //3D wall slice
+	        //correct for fish-eye distortion
 	        double ca = normalizeAngle(angle - rayAngle);
 	        finalDist *= Math.cos(ca);
 
@@ -215,7 +215,7 @@ public class Player extends Entity implements KeyListener{
 	        int lineOffset = 350 - lineH / 2;
 
 	        g.fillRect(r * 2, lineOffset, 2, lineH);
-
+	        
 	        ra += angleInc;
 	    }
 	}
@@ -229,4 +229,5 @@ public class Player extends Entity implements KeyListener{
 	    if (a < 0) a += 2 * Math.PI;
 	    return a;
 	}
+	
 }
