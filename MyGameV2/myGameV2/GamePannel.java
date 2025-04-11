@@ -50,7 +50,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	}
 	
 	public void startDetails() { //Handles the details of buttons for the start screen
-		
 		start = new JButton("Start");
 		load = new JButton("Load");
 		exit1 = new JButton("Exit");
@@ -78,8 +77,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		add(start);
 		add(load);
-		add(exit1);
-		
+		add(exit1);	
 	}
 	
 	public void run() {
@@ -110,16 +108,13 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	}
 	
 	public void stopPlayer() { //stops the player from moving
-		
 		this.player.left = false;
 		this.player.right = false;
 		this.player.forward = false;
 		this.player.back = false;
-		
 	}
 	
 	public void pauseDetails() { //handles the details of buttons for the pause screen
-		
 		resume = new JButton("Resume");
 		save = new JButton("Save");
 		exit2 = new JButton("Exit");
@@ -145,16 +140,13 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		add(resume);
 		add(save);
 		add(exit2);
-		
 	}
 	
 	public void start() {
 		gameLoop.start();
 	}
 	
-	public void init() {
-		
-	}
+	public void init() {}
 	///---PUT UPDATES HERE---
 	public void update() {
 		player.update();
@@ -168,20 +160,17 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			//this.map.drawGameMap(g);
 			//this.player.draw(g);
 			this.player.drawPlayerView(g);
-			g.setColor(Color.BLACK);
-			g.drawString("FPS: " + currentFps, 10, 20);
+			showFPS(g);
 			clearPause();
 		}
 		//main menu
 		if(gameState == 1) {
-			g.setColor(Color.BLACK);
-			g.drawString("FPS: " + currentFps, 10, 20);
+			showFPS(g);
 			stopPlayer();
 		}
 		//pause menu
 		if(gameState == 2) {
-			g.setColor(Color.gray);
-			g.drawString("FPS: " + currentFps, 10, 20);
+			showFPS(g);
 			revealPause();
 		}
 	}
@@ -192,7 +181,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	}
 	
 	public void clearStart() { //clears the start menu when you click start
-		
 		start.setEnabled(false);
 		start.setVisible(false);
 		
@@ -201,11 +189,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		exit1.setEnabled(false);
 		exit1.setVisible(false);
-		
 	}
 	
 	public void clearPause() { //clears the pause menu
-		
 		resume.setEnabled(false);
 		resume.setVisible(false);
 		
@@ -213,12 +199,10 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		save.setVisible(false);
 		
 		exit2.setEnabled(false);
-		exit2.setVisible(false);
-		
+		exit2.setVisible(false);	
 	}
 	
 	public void revealPause() { //reveals the pause menu
-		
 		resume.setEnabled(true);
 		resume.setVisible(true);
 		
@@ -226,8 +210,12 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		save.setVisible(true);
 		
 		exit2.setEnabled(true);
-		exit2.setVisible(true);
-		
+		exit2.setVisible(true);	
+	}
+	
+	public void showFPS(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.drawString("FPS: " + currentFps, 10, 20);
 	}
 	
 	@Override

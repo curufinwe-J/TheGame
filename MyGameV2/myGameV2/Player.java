@@ -36,7 +36,6 @@ public class Player extends Entity implements KeyListener{
 		this.color=color;
 		this.mp = GameMap.map;
 		this.mapS = GameMap.mapS;
-		
 	}
 	public static double get(double get) {
 		return get;
@@ -139,7 +138,6 @@ public class Player extends Entity implements KeyListener{
 	            rx = px;
 	            dof = 12;
 	        }
-
 	        while (dof < 12) {
 	            int mx = (int)(rx / mapS);
 	            int my = (int)(ry / mapS);
@@ -154,7 +152,6 @@ public class Player extends Entity implements KeyListener{
 	                dof++;
 	            }
 	        }
-
 	        // === VERTICAL INTERSECTION ===
 	        double nTan = -Math.tan(rayAngle);
 	        dof = 0;
@@ -189,7 +186,6 @@ public class Player extends Entity implements KeyListener{
 	                dof++;
 	            }
 	        }
-
 	        // === CHOOSE SHORTEST DISTANCE ===
 	        double finalDist, finalX, finalY;
 	        if (vDist < hDist) {
@@ -205,8 +201,8 @@ public class Player extends Entity implements KeyListener{
 	        }
 
 	        // === Draw rays in 2D map view ===
-	       // g.setColor(Color.BLUE);
-	       // g.drawLine((int) px, (int) py, (int) finalX, (int) finalY);
+	        // g.setColor(Color.BLUE);
+	        // g.drawLine((int) px, (int) py, (int) finalX, (int) finalY);
 
 	        // === 3D Wall Slice ===
 	        // Correct for fish-eye distortion
@@ -227,6 +223,7 @@ public class Player extends Entity implements KeyListener{
 	private double distance(double x1, double y1, double x2, double y2) {
 	    return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
 	}
+	
 	private double normalizeAngle(double a) {
 	    a %= (2 * Math.PI);
 	    if (a < 0) a += 2 * Math.PI;

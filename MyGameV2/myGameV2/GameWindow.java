@@ -13,11 +13,10 @@ public class GameWindow extends JFrame{
 	public GameWindow() {}
 	
 	public GameWindow(String str) {
-		
 		this.setTitle(str);
 		this.dim = new Dimension(1920,1080);
 		this.setExtendedState(this.MAXIMIZED_BOTH);
-		//this.setUndecorated(true);
+		this.setUndecorated(true);
 		this.setMinimumSize(dim);
 		
 		game = new GamePannel();
@@ -34,5 +33,4 @@ public class GameWindow extends JFrame{
 		GameWindow win = new GameWindow("GameV2");
 		win.game.start();
 	}
-
 }
