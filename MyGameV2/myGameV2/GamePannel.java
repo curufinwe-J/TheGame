@@ -18,6 +18,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public Thread gameLoop;
 	public GameMap map;
 	public Player player;
+	public Enviorment enviorment;
 	public JButton start;
 	public JButton load;
 	public JButton exit1;
@@ -41,6 +42,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		this.init();
 		map = new GameMap(12,12,64); 
 		player = new Player(100,100,5,5,Color.red);
+		enviorment = new Enviorment(player.px,player.py);
 		this.setFocusable(true);
 		this.addKeyListener(player);
 		fpsTimer = System.currentTimeMillis();
@@ -158,6 +160,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	///---PUT UPDATES HERE---
 	public void update() {
 		player.update();
+		enviorment.update();//testing
 		this.repaint();
 	}
 	

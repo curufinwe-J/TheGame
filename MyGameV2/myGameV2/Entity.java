@@ -4,8 +4,8 @@ import java.awt.Color;
 
 public class Entity {
 	
-	public double px; //x-position
-	public double py; //y-position
+	public static double px; //x-position
+	public static double py; //y-position
 	
 	public int width;
 	public int height;

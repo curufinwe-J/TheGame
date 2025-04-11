@@ -31,7 +31,7 @@ public class Player extends Entity implements KeyListener{
 		this.mapS = GameMap.mapS;
 		
 	}
-	public double get(double get) {
+	public static double get(double get) {
 		return get;
 	}
 	public void draw(Graphics g) {
@@ -39,9 +39,7 @@ public class Player extends Entity implements KeyListener{
 		g.fillRect((int)px, (int)py, width, height);
 	}
 	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
+	public void keyTyped(KeyEvent e) {}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if((e.getKeyCode() == KeyEvent.VK_LEFT))
@@ -103,7 +101,9 @@ public class Player extends Entity implements KeyListener{
 			if(mp[(int) py/mapS][(int) xn] == 0 ) {
 			px = px - dx*MS;
 			}
-		}
+		}	
+	}
+	public void drawPlayerView() {//might use this if Enviorment class never works
 		
 	}
 
