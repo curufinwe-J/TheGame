@@ -46,6 +46,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		fpsTimer = System.currentTimeMillis();
 		startDetails();
 		pauseDetails();
+		clearPause();
 		addKeyListener(this);
 	}
 	
@@ -67,9 +68,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		this.setLayout(null);
 		
-		start.setBounds(580,390,100,50);
-		load.setBounds(580,440,100,50);
-		exit1.setBounds(580,490,100,50);
+		start.setBounds(910,390,100,50);
+		load.setBounds(910,440,100,50);
+		exit1.setBounds(910,490,100,50);
 		
 		start.setActionCommand("start");
 		load.setActionCommand("load");
@@ -129,9 +130,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		this.setLayout(null);
 		
-		resume.setBounds(580,390,100,50);
-		save.setBounds(580,440,100,50);
-		exit2.setBounds(580,490,100,50);
+		resume.setBounds(910,390,100,50);
+		save.setBounds(910,440,100,50);
+		exit2.setBounds(910,490,100,50);
 		
 		resume.setActionCommand("resume");
 		save.setActionCommand("save");

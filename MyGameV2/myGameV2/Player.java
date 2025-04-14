@@ -210,11 +210,11 @@ public class Player extends Entity implements KeyListener{
 	        finalDist *= Math.cos(ca);
 
 	        // Line height based on distance
-	        int lineH = (int)(mapS * 800 / finalDist);
-	        if (lineH > 800) lineH = 800;
-	        int lineOffset = 350 - lineH / 2;
+	        int lineH = (int)(mapS * 1080 / finalDist);
+	        if (lineH > 1080) lineH = 1080;//resolution ymax
+	        int lineOffset = 540 - lineH / 2;
 
-	        g.fillRect(r * 2, lineOffset, 2, lineH);
+	        g.fillRect(r * 3, lineOffset, 3, lineH);//resolution xmax / numrays
 	        
 	        ra += angleInc;
 	    }
