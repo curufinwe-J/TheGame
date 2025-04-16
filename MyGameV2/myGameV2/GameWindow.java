@@ -16,7 +16,7 @@ public class GameWindow extends JFrame{
 		this.setTitle(str);
 		this.dim = new Dimension(1920,1080);
 		this.setExtendedState(this.MAXIMIZED_BOTH);
-		this.setUndecorated(true);
+		//this.setUndecorated(true);
 		this.setMinimumSize(dim);
 		
 		game = new GamePannel();
