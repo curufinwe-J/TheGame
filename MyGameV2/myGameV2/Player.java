@@ -1,7 +1,9 @@
 package myGameV2;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -26,6 +28,11 @@ public class Player extends Entity implements KeyListener{
 	private double angleInc = FOV / (numRays-1);
 	public double vDist;
 	public double hDist;
+	//
+	Toolkit toolkit = Toolkit.getDefaultToolkit();
+	private Dimension dim = toolkit.getScreenSize();
+	private int windowWidth = (int) dim.getWidth();
+	private int windowHeight = (int) dim.getHeight();
 
 	public Player(double px, double py, int width, int height, Color color) {
 		super(px, py, width, height, color);
@@ -210,13 +217,15 @@ public class Player extends Entity implements KeyListener{
 	        finalDist *= Math.cos(ca);
 
 	        // Line height based on distance
-	        int lineH = (int)(mapS * 1080 / finalDist);
-	        if (lineH > 1080) lineH = 1080;//resolution ymax
-	        int lineOffset = 540 - lineH / 2;
-
-	        g.fillRect(r * 3, lineOffset, 3, lineH);//resolution xmax / numrays
+	        int lineH = (int) (mapS * 1080 / finalDist);
+	        if (lineH > windowHeight) lineH = windowHeight;//resolution ymax
+	        int lineOffset = windowHeight/2 - lineH / 2;
+	        
+	        int rayWidth = windowWidth / numRays + 1;
+	        g.fillRect(r * rayWidth, lineOffset, rayWidth, lineH);//resolution xmax / numrays
 	        
 	        ra += angleInc;
+	        System.out.println(windowWidth);
 	    }
 	}
 

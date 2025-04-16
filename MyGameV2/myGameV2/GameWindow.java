@@ -2,19 +2,25 @@ package myGameV2;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GameWindow extends JFrame{
 	public Dimension dim;
+	public int width;
+	public int height;
 	public GamePannel game;
 	
 	public GameWindow() {}
 	
 	public GameWindow(String str) {
 		this.setTitle(str);
-		this.dim = new Dimension(1920,1080);
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		this.dim = toolkit.getScreenSize();
+		width = (int) dim.getWidth();
+		height = (int) dim.getHeight();
 		this.setExtendedState(this.MAXIMIZED_BOTH);
 		//this.setUndecorated(true);
 		this.setMinimumSize(dim);
