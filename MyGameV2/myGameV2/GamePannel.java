@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,12 +19,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public Thread gameLoop;
 	public GameMap map;
 	public Player player;
-	public JButton start;
-	public JButton load;
-	public JButton exit1;
-	public JButton resume;
-	public JButton save;
-	public JButton exit2;
+	public JButton start,load,exit1,resume,save,exit2;
 	
 	public static int gameState = 1;
 	
@@ -37,17 +33,23 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	private static final long TARGET_FRAME_TIME = (long) (1000.0/TARGET_FPS);
 	
 	public GamePannel() {
-		gameLoop = new Thread(this);
-		this.init();
-		map = new GameMap(12,12,64); 
-		player = new Player(100,100,5,5,Color.red);
-		this.setFocusable(true);
-		this.addKeyListener(player);
-		fpsTimer = System.currentTimeMillis();
-		startDetails();
-		pauseDetails();
-		clearPause();
-		addKeyListener(this);
+		setFocusable(true);
+        setDoubleBuffered(true);
+        setLayout(null);
+        addKeyListener(this);
+        
+        init();
+        map = new GameMap(12, 12, 64);
+        player = new Player(100, 100, 5, 5, Color.red);
+        fpsTimer = System.currentTimeMillis();
+        
+        startDetails();
+        pauseDetails();
+        clearPause();
+        
+        javax.swing.SwingUtilities.invokeLater(() -> requestFocusInWindow());
+        
+        gameLoop = new Thread(this);
 	}
 	
 	public void startDetails() { //Handles the details of buttons for the start screen
@@ -59,8 +61,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		load.addActionListener(this);
 		exit1.addActionListener(this);
 		
-		//start.setFont(new Font("Arial", Font.BOLD, 24));
-		//start.setBackground(Color.red);
 		
 		start.setLayout(null);
 		load.setLayout(null);
@@ -94,10 +94,12 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 				frameCount = 0;
 				fpsTimer = currentTime;
 			}
+			//game update
+			update();
+            repaint();
 			//FPS manager
 			long waitTime = TARGET_FRAME_TIME - frameTime;
 			if(waitTime>0) {
-				this.update();
 				try {
 					Thread.sleep(waitTime);
 				} catch (InterruptedException e) {
@@ -145,22 +147,23 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	
 	public void start() {
 		gameLoop.start();
+		player.startRenderingThread();
+		//requestFocusInWindow();
 	}
 	
 	public void init() {}
+	
 	///---PUT UPDATES HERE---
 	public void update() {
 		player.update();
-		//enviorment.update();//testing
-		this.repaint();
+		System.out.println("pannel updated");
 	}
 	
-	public void draw(Graphics g) {
+	public void draw(Graphics2D g) {
 		//playing game
 		if(gameState == 0) {
 			//this.map.drawGameMap(g);
 			//this.player.draw(g);
-			this.player.drawPlayerView(g);
 			showFPS(g);
 			clearPause();
 		}
@@ -175,11 +178,34 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			revealPause();
 		}
 	}
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		this.draw(g);
-		Toolkit.getDefaultToolkit().sync();
+	@Override
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g);
+	    Graphics2D g2 = (Graphics2D) g;
+
+	    if (gameState == 0 && player.viewBuffer != null) {
+	        synchronized (player.viewBuffer) {
+	            g2.drawImage(player.viewBuffer, 0, 0, null);
+	        }
+	    }
+
+	    drawUI(g2);
+	    Toolkit.getDefaultToolkit().sync();
 	}
+
+	private void drawUI(Graphics2D g) {
+        showFPS(g);
+
+        switch (gameState) {
+            case 0 -> clearPause();
+            case 1 -> {
+                stopPlayer();
+                showFPS(g);
+            }
+            case 2 -> revealPause();
+        }
+    }
+
 	
 	public void clearStart() { //clears the start menu when you click start
 		start.setEnabled(false);
@@ -214,10 +240,11 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		exit2.setVisible(true);	
 	}
 	
-	public void showFPS(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.drawString("FPS: " + currentFps, 10, 20);
-	}
+	private void showFPS(Graphics g) {
+        g.setColor(Color.GREEN);
+        g.setFont(new Font("Arial", Font.PLAIN, 14));
+        g.drawString("FPS: " + currentFps, 10, 20);
+    }
 	
 	@Override
 	public void actionPerformed(ActionEvent e) { // performs actions when button is pressed
@@ -245,10 +272,29 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public void keyTyped(KeyEvent e) {}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gameState == 0) {	
-			gameState = 2;	
-		}
+	    int code = e.getKeyCode();
+
+	    if (gameState == 0) {
+	        if (code == KeyEvent.VK_W) player.forward = true;
+	        if (code == KeyEvent.VK_S) player.back = true;
+	        if (code == KeyEvent.VK_A) player.left = true;
+	        if (code == KeyEvent.VK_D) player.right = true;
+	        if (code == KeyEvent.VK_CONTROL) player.sprint = true;
+	    }
+
+	    if (code == KeyEvent.VK_ESCAPE && gameState == 0) {
+	        gameState = 2;
+	    }
 	}
+
 	@Override
-	public void keyReleased(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+	    int code = e.getKeyCode();
+
+	    if (code == KeyEvent.VK_W) player.forward = false;
+	    if (code == KeyEvent.VK_S) player.back = false;
+	    if (code == KeyEvent.VK_A) player.left = false;
+	    if (code == KeyEvent.VK_D) player.right = false;
+	    if (code == KeyEvent.VK_CONTROL) player.sprint = false;
+	}
 }

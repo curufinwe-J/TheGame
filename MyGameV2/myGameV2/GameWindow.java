@@ -26,6 +26,7 @@ public class GameWindow extends JFrame{
 		this.setMinimumSize(dim);
 		
 		game = new GamePannel();
+		game.requestFocusInWindow();
 		game.setBackground(Color.gray);
 		this.add(game);
 		
@@ -34,9 +35,11 @@ public class GameWindow extends JFrame{
 		this.setResizable(false);
 		this.setVisible(true);
 	}
+	
 
 	public static void main(String[] args) {
 		GameWindow win = new GameWindow("GameV2");
 		win.game.start();
+		
 	}
 }
