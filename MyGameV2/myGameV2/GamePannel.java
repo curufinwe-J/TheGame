@@ -20,6 +20,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public GameMap map;
 	public Player player;
 	public JButton start,load,exit1,resume,save,exit2;
+	public Enemies enemy;
 	
 	public static int gameState = 1;
 	
@@ -41,6 +42,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         init();
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.red);
+        enemy = new Enemies(100, 100, 5, 5, Color.blue);
         fpsTimer = System.currentTimeMillis();
         
         startDetails();
@@ -156,7 +158,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	///---PUT UPDATES HERE---
 	public void update() {
 		player.update();
-		System.out.println("pannel updated");
+		//System.out.println("pannel updated");
 	}
 	
 	public void draw(Graphics2D g) {
@@ -166,6 +168,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			//this.player.draw(g);
 			showFPS(g);
 			clearPause();
+			
 		}
 		//main menu
 		if(gameState == 1) {
@@ -188,7 +191,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	            g2.drawImage(player.viewBuffer, 0, 0, null);
 	        }
 	    }
-
+	    enemy.draw(g2);
 	    drawUI(g2);
 	    Toolkit.getDefaultToolkit().sync();
 	}
