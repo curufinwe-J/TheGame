@@ -258,12 +258,16 @@ public class Player extends Entity implements KeyListener{
 	            finalDist = vDist;
 	            finalX = vx;
 	            finalY = vy;
-	            g2.setColor(new Color(50, 50, 50)); // vertical shade
+	            int shade = (int)(255 / (2 + finalDist * 0.01));
+	            shade = Math.max(0, Math.min(255, shade));
+	            g2.setColor(new Color(shade/2 -5, shade/2 -5, shade/2 -5)); // vertical shade
 	        } else {
 	            finalDist = hDist;
 	            finalX = hx;
 	            finalY = hy;
-	            g2.setColor(new Color(70, 70, 70)); // horizontal shade
+	            int shade = (int)(255 / (2 + finalDist * 0.01));
+	            shade = Math.max(0, Math.min(255, shade));
+	            g2.setColor(new Color(shade/2 +5, shade/2 +5, shade/2 +5)); // horizontal shade
 	        }
 
 	        //draw rays in 2D map view ===
@@ -279,6 +283,7 @@ public class Player extends Entity implements KeyListener{
 	        int lineH = (int) (mapS * 1080 / finalDist);
 	        if (lineH > windowHeight) lineH = windowHeight;//resolution ymax
 	        int lineOffset = windowHeight/2 - lineH / 2;
+	        
 	        
 	        int rayWidth = windowWidth / numRays + 1;
 	        g2.fillRect(r * rayWidth, lineOffset, rayWidth, lineH);//resolution xmax / numrays
@@ -302,10 +307,10 @@ public class Player extends Entity implements KeyListener{
 	            int cellY = (int)(floorY);
 	            
 	            //Simulate texture sampling with color shading (replace with texture later)
-	            int shade = (int)(255 / (1 + rowDistance * 0.01));
+	            int shade = (int)(255 / (2 + rowDistance * 0.01));
 	            shade = Math.max(0, Math.min(255, shade));
-	            Color floorColor = new Color(shade, shade, shade);
-	            Color ceilingColor = new Color(shade / 2, shade / 2, shade / 2);
+	            Color floorColor = new Color(shade/2, shade/2, shade/2);
+	            Color ceilingColor = new Color(shade/2, shade/2, shade/2 );
 	            
 	            g2.setColor(floorColor);
 	            g2.fillRect(r * rayWidth, y, rayWidth, 1); // Floor
