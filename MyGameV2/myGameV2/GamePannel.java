@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -21,6 +23,8 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public Player player;
 	public JButton start,load,exit1,resume,save,exit2;
 	public Enemies enemy;
+	public Camera camera;
+	private List<Sprite> gameSprites = new ArrayList<>();
 	
 	public static int gameState = 1;
 	
@@ -40,9 +44,13 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         addKeyListener(this);
         
         init();
+        TextureManager.loadAllTextures();
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.red);
         enemy = new Enemies(200, 100, 5, 5, Color.blue);
+        camera = new Camera(player);
+        createSprites();
+        
         fpsTimer = System.currentTimeMillis();
         
         startDetails();
@@ -149,7 +157,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	
 	public void start() {
 		gameLoop.start();
-		player.startRenderingThread();
+		camera.startRenderingThread();
 		//requestFocusInWindow();
 	}
 	
@@ -158,7 +166,11 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	///---PUT UPDATES HERE---
 	public void update() {
 		player.update();
-		//System.out.println("pannel updated");
+		for (Sprite sprite : gameSprites) {
+	        if (!sprite.isStatic()) {
+	            // Add sprite movement logic here
+	        }
+	    }
 	}
 	
 	public void draw(Graphics2D g) {
@@ -185,9 +197,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    super.paintComponent(g);
 	    Graphics2D g2 = (Graphics2D) g;
 
-	    if (gameState == 0 && player.viewBuffer != null) {
-	        synchronized (player.viewBuffer) {
-	            g2.drawImage(player.viewBuffer, 0, 0, null);
+	    if (gameState == 0 && camera.getViewBuffer() != null) {
+	        synchronized (camera.getViewBuffer()) {
+	            g2.drawImage(camera.getViewBuffer(), 0, 0, null);
 	        }
 	    }
 	    enemy.draw(g2);
@@ -298,5 +310,10 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    if (code == KeyEvent.VK_A) player.left = false;
 	    if (code == KeyEvent.VK_D) player.right = false;
 	    if (code == KeyEvent.VK_CONTROL) player.sprint = false;
+	}
+	private void createSprites() {
+	    Sprite ghost = new Sprite(100, 200, TextureManager.getTexture("ghost"), 3.0, 0, false);
+	    camera.addSprite(ghost);
+	    gameSprites.add(ghost);
 	}
 }
