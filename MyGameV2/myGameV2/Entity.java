@@ -6,6 +6,8 @@ public class Entity {
 	
 	public static double px; //x-position
 	public static double py; //y-position
+	public static double ex; // enemy x
+	public static double ey; // enemy y
 	
 	public int width;
 	public int height;

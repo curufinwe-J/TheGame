@@ -5,10 +5,10 @@ import java.awt.Graphics;
 
 public class Enemies extends Entity{
 
-	public Enemies(double px, double py, int width, int height, Color color) {
+	public Enemies(double ex, double ey, int width, int height, Color color) {
 		super(px, py, width, height, color);
-		this.px=px;
-		this.py=py;
+		this.ex=ex;
+		this.ey=ey;
 		this.width=width;
 		this.height=height;
 		this.color=color;
@@ -16,6 +16,12 @@ public class Enemies extends Entity{
 
 	public void draw(Graphics g) {
 		g.setColor(this.color);
-		g.fillRect((int)px, (int)py, width, height);
+		g.fillRect((int)ex, (int)ey, width, height);
+	}
+	
+	public void followPlayer(double px, double py) {
+		
+		
+		
 	}
 }

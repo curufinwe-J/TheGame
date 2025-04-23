@@ -94,7 +94,7 @@ public class Player extends Entity implements KeyListener{
 	}
 	
 	public void update() {
-		System.out.println("player updated");
+		//System.out.println("player updated");
 		if(left) {
 			angle-=RS;
 			if(angle<0) {
@@ -147,7 +147,7 @@ public class Player extends Entity implements KeyListener{
 				stamina++;
 			}
 		}
-		System.out.println("x: " + px + ", y: " + py);
+		//System.out.println("x: " + px + ", y: " + py);
 	}
 	public void startRenderingThread() {
 	    viewBuffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
