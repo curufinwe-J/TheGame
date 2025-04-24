@@ -25,6 +25,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public Enemies enemy;
 	public Camera camera;
 	private List<Sprite> gameSprites = new ArrayList<>();
+	public Sprite sprite;
 	
 	public static int gameState = 1;
 	
@@ -50,6 +51,8 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         enemy = new Enemies(200, 100, 5, 5, Color.blue);
         camera = new Camera(player);
         createSprites();
+        
+        sprite = new Sprite(200,200,TextureManager.getTexture("ghost"),3,0,false,5);
         
         fpsTimer = System.currentTimeMillis();
         
@@ -166,11 +169,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	///---PUT UPDATES HERE---
 	public void update() {
 		player.update();
-		for (Sprite sprite : gameSprites) {
-	        if (!sprite.isStatic()) {
-	            // Add sprite movement logic here
-	        }
-	    }
+		sprite.spriteMovement(sprite, player);
 	}
 	
 	public void draw(Graphics2D g) {
@@ -312,8 +311,8 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    if (code == KeyEvent.VK_CONTROL) player.sprint = false;
 	}
 	private void createSprites() {
-	    Sprite ghost = new Sprite(100, 200, TextureManager.getTexture("ghost"), 3.0, 0, false);
-	    camera.addSprite(ghost);
+	    Sprite ghost = new Sprite(100, 200, TextureManager.getTexture("ghost"), 3.0, 0, false, 5);
+	     camera.addSprite(ghost);
 	    gameSprites.add(ghost);
 	}
 }
