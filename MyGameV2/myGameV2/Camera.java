@@ -61,12 +61,12 @@ public class Camera {
             while (running) {
                 synchronized (viewBuffer) {
                     Graphics2D g2 = (Graphics2D) viewBuffer.getGraphics();
-                    //g2.setColor(Color.BLACK);
-                    //g2.fillRect(0, 0, viewBuffer.getWidth(), viewBuffer.getHeight());
-                    //drawPlayerView(g2);
-                    map.drawGameMap(g2);
-                    player.draw(g2);
-                    enemy.draw(g2);
+                    g2.setColor(Color.BLACK);
+                    g2.fillRect(0, 0, viewBuffer.getWidth(), viewBuffer.getHeight());
+                    drawPlayerView(g2);
+                    //map.drawGameMap(g2);
+                    //player.draw(g2);
+                    //enemy.draw(g2);
                     g2.dispose();
                 }
                 

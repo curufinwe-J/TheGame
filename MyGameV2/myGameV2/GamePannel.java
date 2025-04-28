@@ -173,9 +173,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public void draw(Graphics2D g) {
 		//playing game
 		if(gameState == 0) {
-			this.map.drawGameMap(g);
+			//this.map.drawGameMap(g);
 			this.player.draw(g);
-			this.enemy.draw(g);
+			//this.enemy.draw(g);
 			showFPS(g);
 			clearPause();
 		}
@@ -188,6 +188,10 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		if(gameState == 2) {
 			showFPS(g);
 			revealPause();
+		}
+		//win screen
+		if(gameState == 3) {
+			
 		}
 	}
 	@Override

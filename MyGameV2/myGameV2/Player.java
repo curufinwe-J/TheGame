@@ -15,6 +15,8 @@ public class Player extends Entity implements KeyListener {
     private int stamina;
     private int health;
     private int mana;
+    public int mx;
+    public int my;
     
     // Collision
     public int[][] mp = new int[12][12]; // map position
@@ -47,8 +49,9 @@ public class Player extends Entity implements KeyListener {
         g.setColor(this.color);
         g.fillRect((int)px, (int)py, width, height);
         System.out.println("pxy" + px + py);
+        getPlayerMapCoords(px,py,mp,mapS);
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {}
     
@@ -135,7 +138,12 @@ public class Player extends Entity implements KeyListener {
             }
         }
     }
-    
+    public void getPlayerMapCoords(double px,double py,int[][] mp,int mapS) {
+    	mx=(int)px/mapS;
+    	my=(int)py/mapS;
+    	System.out.print(mx + " " + my);
+    	
+    }
     // Getters and setters for access from Camera
     public double getPx() { return px; }
     public double getPy() { return py; }
