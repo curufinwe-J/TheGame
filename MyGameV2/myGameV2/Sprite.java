@@ -9,8 +9,8 @@ public class Sprite {
     private double height;       // Height offset (for flying or different height sprites)
     private boolean isStatic;    // Whether sprite can move
     private double distance;	// how far away the player is	
-    private double px;          // player x
-    private double py; 			// player y
+    public static double px;          // player x
+    public static double py; 			// player y
     private double speed; 		// value that player distance is divided by to get determine how fast the sprite goes
     
     
@@ -41,8 +41,11 @@ public class Sprite {
     
     public void spriteMovement(Sprite sprite, Player player) { //movement
     	
-    	px = player.getPx();
-    	py = player.getPy();
+    	//px = player.getPx();
+    	//py = player.getPy();
+    	
+    	double px = this.px;
+    	double py = this.py;
     	
     	if(sprite.isStatic = false) {
     		

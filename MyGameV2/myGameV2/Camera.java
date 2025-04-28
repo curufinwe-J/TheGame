@@ -13,6 +13,8 @@ import java.util.List;
 public class Camera {
     // Player reference
     private Player player;
+    private Enemies enemy;
+    private GameMap map;
     
     // Ray casting properties
     private final int numRays = 680;
@@ -37,6 +39,9 @@ public class Camera {
         this.player = player;
         this.viewBuffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
         this.zBuffer = new double[windowWidth]; // One Z value per screen column
+        map = new GameMap(12, 12, 64);
+        player = new Player(100, 100, 5, 5, Color.green);
+        enemy = GamePannel.enemy; //Enemies(200, 100, TextureManager.getTexture("ghost"),3,0,false,5);
     }
     
     public void addSprite(Sprite sprite) {
@@ -56,9 +61,12 @@ public class Camera {
             while (running) {
                 synchronized (viewBuffer) {
                     Graphics2D g2 = (Graphics2D) viewBuffer.getGraphics();
-                    g2.setColor(Color.BLACK);
-                    g2.fillRect(0, 0, viewBuffer.getWidth(), viewBuffer.getHeight());
-                    drawPlayerView(g2);
+                    //g2.setColor(Color.BLACK);
+                    //g2.fillRect(0, 0, viewBuffer.getWidth(), viewBuffer.getHeight());
+                    //drawPlayerView(g2);
+                    map.drawGameMap(g2);
+                    player.draw(g2);
+                    enemy.draw(g2);
                     g2.dispose();
                 }
                 
@@ -79,6 +87,13 @@ public class Camera {
         synchronized (viewBuffer) {
             return viewBuffer;
         }
+    }
+    
+    public void drawEnemy(Graphics2D g2) {
+    	g2.setColor(Color.blue);
+		g2.fillRect((int)enemy.getEx(), (int)enemy.getEy(), 5, 5);
+		System.out.println("DRAWN!!!");
+		System.out.println("exy" + enemy.getEx() + enemy.getEy());
     }
     
     public void drawPlayerView(Graphics2D g2) {

@@ -46,6 +46,7 @@ public class Player extends Entity implements KeyListener {
     public void draw(java.awt.Graphics g) {
         g.setColor(this.color);
         g.fillRect((int)px, (int)py, width, height);
+        System.out.println("pxy" + px + py);
     }
     
     @Override

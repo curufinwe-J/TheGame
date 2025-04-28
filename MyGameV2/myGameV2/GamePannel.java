@@ -20,12 +20,10 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	
 	public Thread gameLoop;
 	public GameMap map;
-	public Player player;
+	public static Player player;
 	public JButton start,load,exit1,resume,save,exit2;
-	public Enemies enemy;
+	public static Enemies enemy;
 	public Camera camera;
-	private List<Sprite> gameSprites = new ArrayList<>();
-	public Sprite sprite;
 	
 	public static int gameState = 1;
 	
@@ -48,11 +46,11 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         TextureManager.loadAllTextures();
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.red);
-        enemy = new Enemies(200, 100, 5, 5, Color.blue);
+        enemy = new Enemies(200, 100, TextureManager.getTexture("ghost"), 3, 0, false,5);
         camera = new Camera(player);
         createSprites();
         
-        sprite = new Sprite(200,200,TextureManager.getTexture("ghost"),3,0,false,5);
+        //sprite = new Sprite(200,200,TextureManager.getTexture("ghost"),3,0,false,5);
         
         fpsTimer = System.currentTimeMillis();
         
@@ -169,7 +167,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	///---PUT UPDATES HERE---
 	public void update() {
 		player.update();
-		sprite.spriteMovement(sprite, player);
+		enemy.spriteMovement(enemy, player);
 	}
 	
 	public void draw(Graphics2D g) {
@@ -177,6 +175,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		if(gameState == 0) {
 			this.map.drawGameMap(g);
 			this.player.draw(g);
+			this.enemy.draw(g);
 			showFPS(g);
 			clearPause();
 		}
@@ -201,7 +200,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	            g2.drawImage(camera.getViewBuffer(), 0, 0, null);
 	        }
 	    }
-	    enemy.draw(g2);
 	    drawUI(g2);
 	    Toolkit.getDefaultToolkit().sync();
 	}
@@ -313,6 +311,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	private void createSprites() {
 	    Sprite ghost = new Sprite(100, 200, TextureManager.getTexture("ghost"), 3.0, 0, false, 5);
 	     camera.addSprite(ghost);
-	    gameSprites.add(ghost);
+	    //gameSprites.add(ghost);
 	}
 }

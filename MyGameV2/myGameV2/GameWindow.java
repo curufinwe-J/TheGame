@@ -22,7 +22,7 @@ public class GameWindow extends JFrame{
 		width = (int) dim.getWidth();
 		height = (int) dim.getHeight();
 		this.setExtendedState(this.MAXIMIZED_BOTH);
-		this.setUndecorated(true);
+		//this.setUndecorated(true);
 		this.setMinimumSize(dim);
 		
 		game = new GamePannel();
