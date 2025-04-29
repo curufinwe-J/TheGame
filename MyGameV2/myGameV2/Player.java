@@ -48,8 +48,6 @@ public class Player extends Entity implements KeyListener {
     public void draw(java.awt.Graphics g) {
         g.setColor(this.color);
         g.fillRect((int)px, (int)py, width, height);
-        System.out.println("pxy" + px + py);
-        getPlayerMapCoords(px,py,mp,mapS);
     }
 
     @Override
@@ -138,12 +136,22 @@ public class Player extends Entity implements KeyListener {
             }
         }
     }
-    public void getPlayerMapCoords(double px,double py,int[][] mp,int mapS) {
+    public int getPlayerMapX() {
+    	
     	mx=(int)px/mapS;
-    	my=(int)py/mapS;
-    	System.out.print(mx + " " + my);
+    	
+    	return mx;
     	
     }
+    
+    public int getPlayerMapY() {
+    	
+    	my=(int)py/mapS;
+    	
+    	return my;
+    	
+    }
+    
     // Getters and setters for access from Camera
     public double getPx() { return px; }
     public double getPy() { return py; }
@@ -153,4 +161,6 @@ public class Player extends Entity implements KeyListener {
     public int getMana() { return mana; }
     public int[][] getMap() { return mp; }
     public int getMapS() { return mapS; }
+    public void setPx(double px) { this.px = px; }
+    public void setPy(double py) { this.py = py; }
 }

@@ -92,8 +92,6 @@ public class Camera {
     public void drawEnemy(Graphics2D g2) {
     	g2.setColor(Color.blue);
 		g2.fillRect((int)enemy.getEx(), (int)enemy.getEy(), 5, 5);
-		System.out.println("DRAWN!!!");
-		System.out.println("exy" + enemy.getEx() + enemy.getEy());
     }
     
     public void drawPlayerView(Graphics2D g2) {

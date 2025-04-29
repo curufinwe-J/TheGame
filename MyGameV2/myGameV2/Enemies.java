@@ -33,8 +33,8 @@ public class Enemies extends Entity{
     public void draw(Graphics g) {
 		g.setColor(Color.blue);
 		g.fillRect((int)ex, (int)ey, 5, 5);
-		System.out.println("DRAWN!!!");
-		System.out.println("exy" + ex + ey);
+		//System.out.println("DRAWN!!!");
+		//System.out.println("exy" + ex + ey);
 	}
     public void spriteMovement(Enemies enemy, Player player) { //movement
     	

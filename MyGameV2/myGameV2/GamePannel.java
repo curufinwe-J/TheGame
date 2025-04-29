@@ -21,9 +21,13 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public Thread gameLoop;
 	public GameMap map;
 	public static Player player;
-	public JButton start,load,exit1,resume,save,exit2;
+	public JButton start,load,exit1,resume,save,exit2,exit3,newB;
 	public static Enemies enemy;
 	public Camera camera;
+	public int mapX;
+	public int mapY;
+	public double playerX;
+	public double playerY;
 	
 	public static int gameState = 1;
 	
@@ -56,7 +60,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         
         startDetails();
         pauseDetails();
+        victoryDetails();
         clearPause();
+        clearVictory();
         
         javax.swing.SwingUtilities.invokeLater(() -> requestFocusInWindow());
         
@@ -156,6 +162,28 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		add(exit2);
 	}
 	
+	public void victoryDetails() { //handles the details of buttons for the victory screen
+		newB = new JButton("New");
+		exit3 = new JButton("Exit");
+		
+		newB.addActionListener(this);
+		exit3.addActionListener(this);
+		
+		newB.setLayout(null);
+		exit3.setLayout(null);
+		
+		this.setLayout(null);
+		
+		newB.setBounds(910,390,100,50);
+		exit3.setBounds(910,440,100,50);
+		
+		newB.setActionCommand("new");
+		exit3.setActionCommand("exit");
+		
+		add(newB);
+		add(exit3);
+	}
+	
 	public void start() {
 		gameLoop.start();
 		camera.startRenderingThread();
@@ -168,14 +196,15 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public void update() {
 		player.update();
 		enemy.spriteMovement(enemy, player);
+		playerMapPosition();
 	}
 	
 	public void draw(Graphics2D g) {
 		//playing game
 		if(gameState == 0) {
-			//this.map.drawGameMap(g);
+			this.map.drawGameMap(g);
 			this.player.draw(g);
-			//this.enemy.draw(g);
+			this.enemy.draw(g);
 			showFPS(g);
 			clearPause();
 		}
@@ -191,7 +220,8 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		}
 		//win screen
 		if(gameState == 3) {
-			
+			showFPS(g);
+			revealVictory();
 		}
 	}
 	@Override
@@ -218,6 +248,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
                 showFPS(g);
             }
             case 2 -> revealPause();
+            case 3 -> revealVictory();
         }
     }
 
@@ -231,6 +262,14 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		exit1.setEnabled(false);
 		exit1.setVisible(false);
+	}
+	
+	public void clearVictory() { //clears the victory menu
+		newB.setEnabled(false);
+		newB.setVisible(false);
+		
+		exit3.setEnabled(false);
+		exit3.setVisible(false);
 	}
 	
 	public void clearPause() { //clears the pause menu
@@ -255,11 +294,41 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		exit2.setVisible(true);	
 	}
 	
+	public void revealVictory() {	
+		newB.setVisible(true);
+		newB.setEnabled(true);
+		
+		exit3.setVisible(true);
+		exit3.setEnabled(true);
+	}
+	
 	private void showFPS(Graphics g) {
         g.setColor(Color.GREEN);
         g.setFont(new Font("Arial", Font.PLAIN, 14));
         g.drawString("FPS: " + currentFps, 10, 20);
     }
+	
+	public void playerReset() {
+		
+		playerX = 100;
+		playerY = 100;
+		
+		player.setPx(playerX);
+		player.setPy(playerY);
+	}
+	
+	public void playerMapPosition() { //detects player position on the map grid in x and y coords
+		
+		mapX = player.getPlayerMapX();
+		mapY = player.getPlayerMapY();
+		
+		if (mapX == 11 && mapY == 10) {
+			
+			gameState = 3;
+			
+		}
+		
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) { // performs actions when button is pressed
@@ -281,6 +350,11 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		}
 		if(pressed.equals("save")) {	
 			System.out.println("test2");
+		}
+		if(pressed.equals("new")) {
+			gameState = 0;
+			clearVictory();
+			playerReset();
 		}
 	}
 	@Override
