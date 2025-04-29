@@ -53,7 +53,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         TextureManager.loadAllTextures();
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.red);
-        enemy = new Enemies(400, 400, TextureManager.getTexture("ghost"), 3.0, 5, true, 1, 1);
+        enemy = new Enemies(400, 400, TextureManager.getTexture("ghost"), 3.0, 5, false, 0.5, 1);
         
         setPos();
         
@@ -230,7 +230,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		player.update();
     	if (gameState == 0) {
     		
-    		//enemy.spriteMovement(enemy, player);
+    		enemy.spriteMovement(enemy, player);
     		
     	}
 		playerMapPosition();
@@ -282,7 +282,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    }
 	    drawUI(g2);
 	    Toolkit.getDefaultToolkit().sync();
-	    player.drawAttack(g);
+	   // player.drawAttack(g);
 	}
 
 	private void drawUI(Graphics2D g) {

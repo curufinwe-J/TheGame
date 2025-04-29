@@ -59,11 +59,21 @@ public class Enemies extends Entity{
     	px = player.getPx();
     	py = player.getPy();
     	
-    	directionX = px - ex;
-    	directionY = py - ey;
+    	double dx = px - ex;
+    	double dy = py - ey;
     	
-    	ex += directionX / speed;
-    	ey += directionY / speed;
+    	double distance = Math.sqrt(dx * dx + dy * dy);
+    	
+    	 // Normalize and move
+        if (distance > 0.1) { // Prevent jitter when very close
+            dx = (dx / distance) * speed;
+            dy = (dy / distance) * speed;
+
+            ex += dx;
+            ey += dy;
+            
+            System.out.println("dx: " + dx + " dy: " + dy);
+        }
     }
     
     public void collidDetect(Player player) {
@@ -73,14 +83,17 @@ public class Enemies extends Entity{
     	px = player.getPx();
     	py = player.getPy();
     	
-    	if ((int)ex == (int)px && (int)ey == (int)py) {
-    		
-    		//health = health - damage;
-    		
-    		player.setHealth(health);
-    		
-    	}
-    	
+    	// compute distance
+        double dx = ex - px;
+        double dy = ey - py;
+        double distance = Math.sqrt(dx * dx + dy * dy);
+
+        // if within 5 units apply damage
+        if (distance <= 5) {
+            int health = player.getHealth();
+            health -= damage;
+            player.setHealth(health);
+        }
     }
     
     public static void draw3DEnemy(Player player, Graphics g, int winHeight, int winWidth,
@@ -105,6 +118,7 @@ public class Enemies extends Entity{
         
         // Calculate distance to enemy (for depth scaling)
         double distance = Math.sqrt(dx*dx + dy*dy);
+        distance = Math.max(distance, 0.5);
         double correctedDistance = distance * Math.cos(relativeAngle);
         
         // Field of view in radians
@@ -118,6 +132,7 @@ public class Enemies extends Entity{
         
         // Calculate vertical position and size
         double scale = 2000 / distance;  // Adjust constant as needed
+        scale = Math.min(scale, 300);
         double screenY = winHeight/2 - (eUp * scale);
         double size = Math.min(300, scale * 20);  // Adjust base size as needed
         

@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 public class Player extends Entity implements KeyListener {
     // Movement
     public double angle = 2 * Math.PI;
-    public double MS = 2; // movement-speed
+    public double MS = 1; // movement-speed
     public final double RS = .045; // rotation speed
     public boolean left, right, forward, back, sprint, attack;
     private double dy;
@@ -145,10 +145,10 @@ public class Player extends Entity implements KeyListener {
         }
         if(sprint) {
             if(stamina > 0) {
-                MS = 3;
+                MS = 2;
                 stamina--;
             } else {
-                MS = 2;
+                MS = 1;
             }
         }
         if(!sprint) {
