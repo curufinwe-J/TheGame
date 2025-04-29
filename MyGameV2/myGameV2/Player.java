@@ -1,6 +1,8 @@
 package myGameV2;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -9,7 +11,7 @@ public class Player extends Entity implements KeyListener {
     public double angle = 2 * Math.PI;
     public double MS = 1; // movement-speed
     public final double RS = .045; // rotation speed
-    public boolean left, right, forward, back, sprint;
+    public boolean left, right, forward, back, sprint, attack;
     private double dy;
     private double dx;
     private int stamina;
@@ -17,6 +19,8 @@ public class Player extends Entity implements KeyListener {
     private int mana;
     public int mx;
     public int my;
+    private int attackX;
+    private int attackY;
     
     // Collision
     public int[][] mp = new int[12][12]; // map position
@@ -45,11 +49,28 @@ public class Player extends Entity implements KeyListener {
         dy = Math.sin(angle) * MS;
     }
 
-    public void draw(java.awt.Graphics g) {
+    public void draw(Graphics g) {
         g.setColor(this.color);
         g.fillRect((int)px, (int)py, width, height);
     }
 
+    public void drawAttack(Graphics g) {
+    	
+    	this.attack = false;
+    	
+    	 if(this.attack = true) {
+ 			
+ 			attackX = (int) px;
+ 			attackY = (int) py;
+ 			
+ 			g.fillOval(attackX, attackY, 5, 5);
+ 			
+ 			System.out.println(attackX + " " + attackY);
+ 			
+ 		}
+    	
+    }
+    
     @Override
     public void keyTyped(KeyEvent e) {}
     
@@ -66,6 +87,7 @@ public class Player extends Entity implements KeyListener {
         if((e.getKeyCode() == KeyEvent.VK_CONTROL)) {
             sprint = true;
         }
+        
     }
     
     @Override

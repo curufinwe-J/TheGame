@@ -234,7 +234,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		player.update();
     	if (gameState == 0) {
     		
-    		enemy.spriteMovement(enemy, player);
+    		//enemy.spriteMovement(enemy, player);
     		
     	}
 		playerMapPosition();
@@ -250,6 +250,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			this.enemy.draw(g);
 			showFPS(g);
 			clearPause();
+			
 		}
 		//main menu
 		if(gameState == 1) {
@@ -285,6 +286,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    }
 	    drawUI(g2);
 	    Toolkit.getDefaultToolkit().sync();
+	    player.drawAttack(g);
 	}
 
 	private void drawUI(Graphics2D g) {
@@ -458,6 +460,13 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	        if (code == KeyEvent.VK_A) player.left = true;
 	        if (code == KeyEvent.VK_D) player.right = true;
 	        if (code == KeyEvent.VK_CONTROL) player.sprint = true;
+	        
+	        if (code == KeyEvent.VK_Q) {
+	        	
+	        	player.attack = true;
+	        	
+	        }
+	        
 	    }
 
 	    if (code == KeyEvent.VK_ESCAPE && gameState == 0) {
