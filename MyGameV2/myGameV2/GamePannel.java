@@ -28,7 +28,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public int mapY;
 	public double playerX;
 	public double playerY;
-	
+
 	public static int gameState = 1;
 	
 	//FPS display
@@ -50,9 +50,13 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         TextureManager.loadAllTextures();
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.red);
-        enemy = new Enemies(200, 100, TextureManager.getTexture("ghost"), 3, 0, false,5);
+        enemy = new Enemies(200, 100, TextureManager.getTexture("ghost"), 3, 0, false, 50);
+        
+        enemy.setX(200);
+        enemy.setY(100);
+        
         camera = new Camera(player);
-        createSprites();
+        //createSprites();
         
         //sprite = new Sprite(200,200,TextureManager.getTexture("ghost"),3,0,false,5);
         
@@ -195,7 +199,11 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	///---PUT UPDATES HERE---
 	public void update() {
 		player.update();
-		enemy.spriteMovement(enemy, player);
+    	if (gameState == 0) {
+    		
+    		enemy.spriteMovement(enemy, player);
+    		
+    	}
 		playerMapPosition();
 	}
 	
@@ -252,7 +260,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         }
     }
 
-	
 	public void clearStart() { //clears the start menu when you click start
 		start.setEnabled(false);
 		start.setVisible(false);
