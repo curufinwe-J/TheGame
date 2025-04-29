@@ -32,7 +32,6 @@ public class Camera {
     private boolean running = false;
     
     // Sprites
-    private List<Sprite> sprites = new ArrayList<>();
     private double[] zBuffer; // For depth testing
     
     public Camera(Player player) {
@@ -44,16 +43,6 @@ public class Camera {
         enemy = GamePannel.enemy;
     }
     
-    public void addSprite(Sprite sprite) {
-        sprites.add(sprite);
-    }
-    
-    public void removeSprite(Sprite sprite) {
-        sprites.remove(sprite);
-    }
-    
-    
-    
     public void startRenderingThread() {
         running = true;
         
@@ -61,12 +50,12 @@ public class Camera {
             while (running) {
                 synchronized (viewBuffer) {
                     Graphics2D g2 = (Graphics2D) viewBuffer.getGraphics();
-                    //g2.setColor(Color.BLACK);
-                    //g2.fillRect(0, 0, viewBuffer.getWidth(), viewBuffer.getHeight());
-                    //drawPlayerView(g2);
-                    map.drawGameMap(g2);
-                    player.draw(g2);
-                    enemy.draw(g2);
+                    g2.setColor(Color.BLACK);
+                    g2.fillRect(0, 0, viewBuffer.getWidth(), viewBuffer.getHeight());
+                    drawPlayerView(g2);
+                    //map.drawGameMap(g2);
+                    //player.draw(g2);
+                    //enemy.draw(g2);
                     g2.dispose();
                 }
                 
@@ -249,7 +238,7 @@ public class Camera {
             
             ra += angleInc;
         }
-        drawSprites(g2, playerX, playerY, playerAngle, mapS);
+        Enemies.draw3DEnemy(player, g2, windowHeight, windowWidth, enemy.getEx(), enemy.getEy(), enemy.geteUp(), zBuffer);
         drawPlayerUI(g2);
     }
     
@@ -281,61 +270,5 @@ public class Camera {
         a %= (2 * Math.PI);
         if (a < 0) a += 2 * Math.PI;
         return a;
-    }
-    private void drawSprites(Graphics2D g2, double playerX, double playerY, double playerAngle, int mapS) {
-        // Sort sprites by distance (furthest to nearest)
-        sprites.sort(Comparator.comparingDouble(s -> -s.distanceTo(playerX, playerY)));
-        
-        // Draw each sprite
-        for (Sprite sprite : sprites) {
-        	// Calculate vector direction and camera plane
-        	double dirX = Math.cos(playerAngle);
-        	double dirY = Math.sin(playerAngle);
-        	double planeX = Math.cos(playerAngle + Math.PI/2) * Math.tan(FOV/2);
-        	double planeY = Math.sin(playerAngle + Math.PI/2) * Math.tan(FOV/2);
-
-        	// Calculate sprite position relative to player
-        	double spriteX = sprite.getX() - playerX;
-        	double spriteY = sprite.getY() - playerY;
-
-        	// Determinant of the inverse camera matrix
-        	double invDet = 1.0 / (dirX * planeY - dirY * planeX);
-
-        	// Transform sprite into camera space
-        	double transformX = invDet * (planeY * spriteX - planeX * spriteY);
-        	double transformY = invDet * (-dirY * spriteX + dirX * spriteY);
-            // Skip sprite if behind camera
-            if (transformY <= 0) continue;
-            
-            // Calculate sprite screen position
-            int spriteScreenX = (int)((windowWidth / 2) * (1 + transformX / transformY));
-            
-            // Calculate sprite height on screen
-            int spriteHeight = Math.abs((int)(windowHeight / transformY)) * (int)sprite.getScale();
-            if (spriteHeight <= 0) continue;
-            
-            // Calculate sprite width on screen (maintain aspect ratio)
-            int spriteWidth = spriteHeight;
-            if (sprite.getTexture().getWidth() != sprite.getTexture().getHeight()) {
-                spriteWidth = (int)(spriteHeight * ((double)sprite.getTexture().getWidth() / sprite.getTexture().getHeight()));
-            }
-            
-            // Calculate sprite draw start and end positions
-            int drawStartY = (int)(windowHeight / 2 - spriteHeight / 2 + sprite.getHeight() * windowHeight / transformY);
-            int drawEndY = drawStartY + spriteHeight;
-            if (drawStartY < 0) drawStartY = 0;
-            if (drawEndY >= windowHeight) drawEndY = windowHeight - 1;
-            
-            int drawStartX = spriteScreenX - spriteWidth / 2;
-            int drawEndX = drawStartX + spriteWidth;
-            if (drawStartX < 0) drawStartX = 0;
-            if (drawEndX >= windowWidth) drawEndX = windowWidth - 1;
-            
-            // Draw sprite
-            g2.setColor(Color.RED);
-            int rectWidth = drawEndX - drawStartX;
-            int rectHeight = drawEndY - drawStartY;
-            g2.fillRect(drawStartX, drawStartY, rectWidth, rectHeight);
-        }
     }
 }

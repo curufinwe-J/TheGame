@@ -17,7 +17,7 @@ public class Entity {
 	
 	public Boolean isStatic;
 	public double speed;
-	public int eUp;
+	public static int eUp;
 	
 	public Color color;
 	

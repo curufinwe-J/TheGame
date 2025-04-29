@@ -53,14 +53,11 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         TextureManager.loadAllTextures();
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.red);
-        enemy = new Enemies(310, 300, TextureManager.getTexture("ghost"), 3.0, 0, false, 5, 5);
+        enemy = new Enemies(400, 400, TextureManager.getTexture("ghost"), 3.0, 5, true, 1, 1);
         
         setPos();
         
         camera = new Camera(player);
-        //createSprites();
-        
-        //sprite = new Sprite(200,200,TextureManager.getTexture("ghost"),3,0,false,5);
         
         fpsTimer = System.currentTimeMillis();
         
@@ -107,7 +104,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	}
 	
 	public void setPos() {
-		
 		enemy.setX(400);
 		enemy.setY(400);
 		
@@ -388,7 +384,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
     }
 	
 	public void playerReset() {
-		
 		playerX = 100;
 		playerY = 100;
 		
@@ -397,7 +392,6 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	}
 	
 	public void enemyReset() {
-		
 		enemyX = 400;
 		enemyY = 400;
 		
@@ -411,11 +405,8 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		mapY = player.getPlayerMapY();
 		
 		if (mapX == 11 && mapY == 10) {
-			
 			gameState = 3;
-			
-		}
-		
+		}	
 	}
 	
 	@Override
@@ -464,9 +455,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	        if (code == KeyEvent.VK_Q) {
 	        	
 	        	player.attack = true;
-	        	
 	        }
-	        
 	    }
 
 	    if (code == KeyEvent.VK_ESCAPE && gameState == 0) {
@@ -483,10 +472,5 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    if (code == KeyEvent.VK_A) player.left = false;
 	    if (code == KeyEvent.VK_D) player.right = false;
 	    if (code == KeyEvent.VK_CONTROL) player.sprint = false;
-	}
-	private void createSprites() {
-	    Sprite ghost = new Sprite(100, 200, TextureManager.getTexture("ghost"), 3.0, 0, false, 5);
-	     camera.addSprite(ghost);
-	    //gameSprites.add(ghost);
 	}
 }

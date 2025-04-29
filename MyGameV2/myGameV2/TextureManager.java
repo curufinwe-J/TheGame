@@ -26,9 +26,9 @@ public class TextureManager {
     }
     
     public static void loadAllTextures() {
-    	File file = new File("res/ghost.png");
+    	File file = new File("res/Ghost3.png");
     	System.out.println("Looking for file at: " + file.getAbsolutePath());
     	
-        loadTexture("ghost", "res/GHOST.png");
+        loadTexture("ghost", "res/Ghost3.png");
     }
 }
