@@ -13,7 +13,7 @@ import java.util.List;
 public class Camera {
     // Player reference
     private Player player;
-    private Enemies enemy;
+    private static Enemies enemy;
     private GameMap map;
     
     // Ray casting properties
@@ -41,7 +41,7 @@ public class Camera {
         this.zBuffer = new double[windowWidth]; // One Z value per screen column
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.green);
-        enemy = GamePannel.enemy; //Enemies(200, 100, TextureManager.getTexture("ghost"),3,0,false,5);
+        enemy = GamePannel.enemy;
     }
     
     public void addSprite(Sprite sprite) {
@@ -87,11 +87,6 @@ public class Camera {
         synchronized (viewBuffer) {
             return viewBuffer;
         }
-    }
-    
-    public void drawEnemy(Graphics2D g2) {
-    	g2.setColor(Color.blue);
-		g2.fillRect((int)enemy.getEx(), (int)enemy.getEy(), 5, 5);
     }
     
     public void drawPlayerView(Graphics2D g2) {

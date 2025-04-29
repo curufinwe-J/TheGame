@@ -21,13 +21,16 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public Thread gameLoop;
 	public GameMap map;
 	public static Player player;
-	public JButton start,load,exit1,resume,save,exit2,exit3,newB;
+	public JButton start,load,exit1,resume,save,exit2,exit3,newB,newBut,exit4;
 	public static Enemies enemy;
 	public Camera camera;
 	public int mapX;
 	public int mapY;
 	public double playerX;
 	public double playerY;
+	public double enemyX;
+	public double enemyY;
+	private int health;
 
 	public static int gameState = 1;
 	
@@ -50,10 +53,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         TextureManager.loadAllTextures();
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.red);
-        enemy = new Enemies(200, 100, TextureManager.getTexture("ghost"), 3, 0, false, 50);
+        enemy = new Enemies(310, 300, TextureManager.getTexture("ghost"), 3.0, 0, false, 5, 5);
         
-        enemy.setX(200);
-        enemy.setY(100);
+        setPos();
         
         camera = new Camera(player);
         //createSprites();
@@ -65,8 +67,10 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         startDetails();
         pauseDetails();
         victoryDetails();
+        deathDetails();
         clearPause();
         clearVictory();
+        clearDeath();
         
         javax.swing.SwingUtilities.invokeLater(() -> requestFocusInWindow());
         
@@ -100,6 +104,13 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		add(start);
 		add(load);
 		add(exit1);	
+	}
+	
+	public void setPos() {
+		
+		enemy.setX(400);
+		enemy.setY(400);
+		
 	}
 	
 	public void run() {
@@ -188,6 +199,28 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		add(exit3);
 	}
 	
+	public void deathDetails() { // handles the details of the death menu
+		newBut = new JButton("New");
+		exit4 = new JButton("Exit");
+		
+		newBut.addActionListener(this);
+		exit4.addActionListener(this);
+		
+		newBut.setLayout(null);
+		exit4.setLayout(null);
+		
+		this.setLayout(null);
+		
+		newBut.setBounds(910,390,100,50);
+		exit4.setBounds(910,440,100,50);
+		
+		newBut.setActionCommand("new");
+		exit4.setActionCommand("exit");
+		
+		add(newBut);
+		add(exit4);
+	}
+	
 	public void start() {
 		gameLoop.start();
 		camera.startRenderingThread();
@@ -205,6 +238,8 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
     		
     	}
 		playerMapPosition();
+		enemy.collidDetect(player);
+		detectDeath();
 	}
 	
 	public void draw(Graphics2D g) {
@@ -231,6 +266,12 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			showFPS(g);
 			revealVictory();
 		}
+		//death screen
+		if(gameState == 4) {
+			showFPS(g);
+			revealDeath();
+		}
+		
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -257,9 +298,22 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
             }
             case 2 -> revealPause();
             case 3 -> revealVictory();
+            case 4 -> revealDeath();
         }
     }
 
+	public void detectDeath() { //detects when player health hits zero
+		
+		health = player.getHealth();
+		
+		if (health == 0) {
+			
+			gameState = 4;
+			
+		}
+		
+	}
+	
 	public void clearStart() { //clears the start menu when you click start
 		start.setEnabled(false);
 		start.setVisible(false);
@@ -269,6 +323,14 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		exit1.setEnabled(false);
 		exit1.setVisible(false);
+	}
+	
+	public void clearDeath() { //clears the death menu
+		newBut.setVisible(false);
+		newBut.setEnabled(false);
+		
+		exit4.setVisible(false);
+		exit4.setEnabled(false);
 	}
 	
 	public void clearVictory() { //clears the victory menu
@@ -301,12 +363,20 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		exit2.setVisible(true);	
 	}
 	
-	public void revealVictory() {	
+	public void revealVictory() { //reveals the victory menu	
 		newB.setVisible(true);
 		newB.setEnabled(true);
 		
 		exit3.setVisible(true);
 		exit3.setEnabled(true);
+	}
+	
+	public void revealDeath() { //reveals the death menu
+		newBut.setVisible(true);
+		newBut.setEnabled(true);
+		
+		exit4.setVisible(true);
+		exit4.setEnabled(true);
 	}
 	
 	private void showFPS(Graphics g) {
@@ -322,6 +392,15 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		player.setPx(playerX);
 		player.setPy(playerY);
+	}
+	
+	public void enemyReset() {
+		
+		enemyX = 400;
+		enemyY = 400;
+		
+		enemy.setX(enemyX);
+		enemy.setY(enemyY);
 	}
 	
 	public void playerMapPosition() { //detects player position on the map grid in x and y coords
@@ -362,6 +441,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			gameState = 0;
 			clearVictory();
 			playerReset();
+			enemyReset();
+			clearDeath();
+			player.setHealth(100);
 		}
 	}
 	@Override

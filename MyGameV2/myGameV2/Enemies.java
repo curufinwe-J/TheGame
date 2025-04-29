@@ -20,8 +20,10 @@ public class Enemies extends Entity{
     private int height;       // Height offset (for flying or different height sprites)
     private double directionX;
     private double directionY;
+    private int damage;
+    private int health;
 
-	public Enemies(double ex, double ey, BufferedImage texture, double scale, int eUp, boolean isStatic, double speed) {
+	public Enemies(double ex, double ey, BufferedImage texture, double scale, int eUp, boolean isStatic, double speed, int damage) {
 		super(ex, ey, texture, scale, eUp, isStatic, speed);
 		this.ex = ex;
 		this.ex = ey;
@@ -30,6 +32,7 @@ public class Enemies extends Entity{
 		this.scale = scale;
 		this.eUp = eUp;
 		this.isStatic = isStatic;
+		this.damage = damage;
     }
 	public double distanceTo(double playerX, double playerY) {
 	    return Math.sqrt((ex - playerX) * (ex - playerX) + (ey - playerY) * (ey - playerY));
@@ -42,8 +45,6 @@ public class Enemies extends Entity{
     public void draw(Graphics g) {
 		g.setColor(Color.blue);
 		g.fillRect((int)ex, (int)ey, 5, 5);
-		
-		//System.out.println(ex + " " + ey);
 	}
     public void spriteMovement(Enemies enemy, Player player) { //movement
     	
@@ -53,11 +54,27 @@ public class Enemies extends Entity{
     	directionX = px - ex;
     	directionY = py - ey;
     	
-    	System.out.println(directionX + " " + directionY);
-    	
     	ex += directionX / speed;
     	ey += directionY / speed;
     }
+    
+    public void collidDetect(Player player) {
+    	
+    	health = player.getHealth();
+    			
+    	px = player.getPx();
+    	py = player.getPy();
+    	
+    	if ((int)ex == (int)px && (int)ey == (int)py) {
+    		
+    		health = health - damage;
+    		
+    		player.setHealth(health);
+    		
+    	}
+    	
+    }
+    
     public double getEx() { return ex; }
     public double getEy() { return ey; }
     public double getSpeed() { return speed; }

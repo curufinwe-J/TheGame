@@ -85,7 +85,7 @@ public class Player extends Entity implements KeyListener {
     }
     
     public void update() {
-        if(left) {
+    	if(left) {
             angle -= RS;
             if(angle < 0) {
                 angle += 2 * Math.PI;
@@ -163,4 +163,5 @@ public class Player extends Entity implements KeyListener {
     public int getMapS() { return mapS; }
     public void setPx(double px) { this.px = px; }
     public void setPy(double py) { this.py = py; }
+    public void setHealth(int health) {this.health = health; }
 }
