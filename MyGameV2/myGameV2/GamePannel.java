@@ -58,7 +58,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         TextureManager.loadAllTextures();
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.red);
-        enemy = new Enemies(400, 400, TextureManager.getTexture("ghost"), 3.0, 5, true, 0.75, 2);
+        enemy = new Enemies(400, 400, TextureManager.getTexture("ghost"), 3.0, 5, true, 0.5, 2);
         
         setPos();
         
@@ -326,7 +326,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			attackX = (int) player.getPx();
 			attackY = (int) player.getPy();
 			
-			g.fillOval(attackX + 1, attackY + 1, 5, 5);
+			//g.fillOval(attackX + 1, attackY + 1, 5, 5);
 			
 			//System.out.println(attackX + " " + attackY);
 	}
