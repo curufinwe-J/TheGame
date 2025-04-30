@@ -32,9 +32,8 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public double enemyX;
 	public double enemyY;
 	private int health;
-	private boolean attack = false;
-    private int attackX;
-    private int attackY;
+	private int mana;
+	private boolean teleport;
     public Label startL, victory, pause, death;
 	
 	public static int gameState = 1;
@@ -260,6 +259,13 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		playerMapPosition();
 		enemy.collidDetect(player);
 		detectDeath();
+		
+		if(gameState == 0) {
+			
+			enemyTeleport();
+			
+		}
+		
 	}
 	
 	public void draw(Graphics2D g) {
@@ -306,29 +312,24 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    }
 	    drawUI(g2);
 	    Toolkit.getDefaultToolkit().sync();
-	    
-	    attack = false;
-	    
-	    if (attack = true) {
-	    	
-	    	System.out.println(attack);
-	    	
-	    	drawAttack(g);
-	    	
-	    	//System.out.println("test");
-	    	
-	    }
-	    
 	}
 
-	private void drawAttack(Graphics g) {
+	private void enemyTeleport() {
 
-			attackX = (int) player.getPx();
-			attackY = (int) player.getPy();
-			
-			//g.fillOval(attackX + 1, attackY + 1, 5, 5);
-			
-			//System.out.println(attackX + " " + attackY);
+		enemyX = enemy.getEx();
+		enemyY = enemy.getEy();
+
+		mana = player.getMana();
+		
+			if (teleport != false && mana == 100) {
+				
+				enemy.setX(400);
+				enemy.setY(400);
+				
+				player.setMana(0);
+				
+			}
+		
 	}
 	
 	private void drawUI(Graphics2D g) {
@@ -504,6 +505,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 			enemyReset();
 			clearDeath();
 			player.setHealth(100);
+			player.setMana(100);
 		}
 	}
 	@Override
@@ -521,7 +523,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	        
 	        if (code == KeyEvent.VK_Q) {
 	        	
-	        	attack = true;
+	        	teleport = true;
 	        	
 	        }
 	    }
@@ -543,7 +545,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    
 	    if (code == KeyEvent.VK_Q) {
         	
-        	attack = false;
+        	teleport = false;
         	
         }
 	}

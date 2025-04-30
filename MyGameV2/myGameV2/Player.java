@@ -168,4 +168,5 @@ public class Player extends Entity implements KeyListener {
     public void setPx(double px) { this.px = px; }
     public void setPy(double py) { this.py = py; }
     public void setHealth(int health) {this.health = health; }
+    public void setMana(int mana) {this.mana = mana; }
 }
