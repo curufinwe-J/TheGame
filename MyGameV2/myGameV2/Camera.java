@@ -244,19 +244,19 @@ public class Camera {
     
     public void drawPlayerUI(Graphics g) {
         // Sprint bar
-        g.setColor(Color.GRAY);
+        g.setColor(Color.BLACK);
         g.fillRect(windowWidth - 160, 40, 120, 40);
         g.setColor(Color.GREEN);
         g.fillRect(windowWidth - 150, 50, player.getStamina(), 20);
         
         // Health bar
-        g.setColor(Color.GRAY);
+        g.setColor(Color.BLACK);
         g.fillRect(windowWidth - 160, 90, 120, 40);
         g.setColor(Color.RED);
         g.fillRect(windowWidth - 150, 100, player.getHealth(), 20);
         
         // Mana bar
-        g.setColor(Color.GRAY);
+        g.setColor(Color.BLACK);
         g.fillRect(windowWidth - 160, 140, 120, 40);
         g.setColor(Color.BLUE);
         g.fillRect(windowWidth - 150, 150, player.getMana(), 20);
