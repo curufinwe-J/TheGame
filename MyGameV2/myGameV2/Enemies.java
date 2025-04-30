@@ -132,9 +132,9 @@ public class Enemies extends Entity{
         
         // Calculate vertical position and size
         double scale = 2000 / distance;  // Adjust constant as needed
-        scale = Math.min(scale, 300);
+        scale = Math.min(scale, 500);
         double screenY = winHeight/2 - (eUp * scale);
-        double size = Math.min(300, scale * 20);  // Adjust base size as needed
+        double size = Math.min(2000, scale * 20);  // Adjust base size as needed
         
         // Draw sprite image
         Graphics2D g2d = (Graphics2D) g;

@@ -22,12 +22,12 @@ public class GameWindow extends JFrame{
 		width = (int) dim.getWidth();
 		height = (int) dim.getHeight();
 		this.setExtendedState(this.MAXIMIZED_BOTH);
-		//this.setUndecorated(true);
+		this.setUndecorated(true);
 		this.setMinimumSize(dim);
 		
 		game = new GamePannel();
 		game.requestFocusInWindow();
-		game.setBackground(Color.gray);
+		game.setBackground(new Color(75,75,75));
 		this.add(game);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
