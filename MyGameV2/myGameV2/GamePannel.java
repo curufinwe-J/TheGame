@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +32,11 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public double enemyX;
 	public double enemyY;
 	private int health;
-
+	private boolean attack = false;
+    private int attackX;
+    private int attackY;
+    public Label startL, victory, pause, death;
+	
 	public static int gameState = 1;
 	
 	//FPS display
@@ -53,7 +58,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         TextureManager.loadAllTextures();
         map = new GameMap(12, 12, 64);
         player = new Player(100, 100, 5, 5, Color.red);
-        enemy = new Enemies(400, 400, TextureManager.getTexture("ghost"), 3.0, 5, false, 0.5, 1);
+        enemy = new Enemies(400, 400, TextureManager.getTexture("ghost"), 3.0, 5, true, 1, 1);
         
         setPos();
         
@@ -74,16 +79,18 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         gameLoop = new Thread(this);
 	}
 	
-	public void startDetails() { //Handles the details of buttons for the start screen
+	public void startDetails() { //Handles the details for the start screen
 		start = new JButton("Start");
 		load = new JButton("Load");
 		exit1 = new JButton("Exit");
+		startL = new Label("GAUNTLET");
 		
 		start.addActionListener(this);
 		load.addActionListener(this);
 		exit1.addActionListener(this);
 		
-		
+		startL.setAlignment(Label.CENTER);
+
 		start.setLayout(null);
 		load.setLayout(null);
 		exit1.setLayout(null);
@@ -93,6 +100,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		start.setBounds(910,390,100,50);
 		load.setBounds(910,440,100,50);
 		exit1.setBounds(910,490,100,50);
+		startL.setBounds(860, 350, 200, 50);
 		
 		start.setActionCommand("start");
 		load.setActionCommand("load");
@@ -101,6 +109,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		add(start);
 		add(load);
 		add(exit1);	
+		add(startL);
 	}
 	
 	public void setPos() {
@@ -145,14 +154,17 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		this.player.back = false;
 	}
 	
-	public void pauseDetails() { //handles the details of buttons for the pause screen
+	public void pauseDetails() { //handles the details for the pause screen
 		resume = new JButton("Resume");
 		save = new JButton("Save");
 		exit2 = new JButton("Exit");
+		pause = new Label("Game Paused");
 		
 		resume.addActionListener(this);
 		save.addActionListener(this);
 		exit2.addActionListener(this);
+		
+		pause.setAlignment(Label.CENTER);
 		
 		resume.setLayout(null);
 		save.setLayout(null);
@@ -163,6 +175,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		resume.setBounds(910,390,100,50);
 		save.setBounds(910,440,100,50);
 		exit2.setBounds(910,490,100,50);
+		pause.setBounds(860, 350, 200, 50);
 		
 		resume.setActionCommand("resume");
 		save.setActionCommand("save");
@@ -171,14 +184,18 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		add(resume);
 		add(save);
 		add(exit2);
+		add(pause);
 	}
 	
-	public void victoryDetails() { //handles the details of buttons for the victory screen
+	public void victoryDetails() { //handles the details for the victory screen
 		newB = new JButton("New");
 		exit3 = new JButton("Exit");
+		victory = new Label("You Won!");
 		
 		newB.addActionListener(this);
 		exit3.addActionListener(this);
+		
+		victory.setAlignment(Label.CENTER);
 		
 		newB.setLayout(null);
 		exit3.setLayout(null);
@@ -187,20 +204,25 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		newB.setBounds(910,390,100,50);
 		exit3.setBounds(910,440,100,50);
+		victory.setBounds(860, 350, 200, 50);
 		
 		newB.setActionCommand("new");
 		exit3.setActionCommand("exit");
 		
 		add(newB);
 		add(exit3);
+		add(victory);
 	}
 	
 	public void deathDetails() { // handles the details of the death menu
 		newBut = new JButton("New");
 		exit4 = new JButton("Exit");
+		death = new Label("You Died!");
 		
 		newBut.addActionListener(this);
 		exit4.addActionListener(this);
+		
+		death.setAlignment(Label.CENTER);
 		
 		newBut.setLayout(null);
 		exit4.setLayout(null);
@@ -209,12 +231,14 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		
 		newBut.setBounds(910,390,100,50);
 		exit4.setBounds(910,440,100,50);
+		death.setBounds(860, 350, 200, 50);
 		
 		newBut.setActionCommand("new");
 		exit4.setActionCommand("exit");
 		
 		add(newBut);
 		add(exit4);
+		add(death);
 	}
 	
 	public void start() {
@@ -282,9 +306,31 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    }
 	    drawUI(g2);
 	    Toolkit.getDefaultToolkit().sync();
-	   // player.drawAttack(g);
+	    
+	    attack = false;
+	    
+	    if (attack = true) {
+	    	
+	    	System.out.println(attack);
+	    	
+	    	drawAttack(g);
+	    	
+	    	//System.out.println("test");
+	    	
+	    }
+	    
 	}
 
+	private void drawAttack(Graphics g) {
+
+			attackX = (int) player.getPx();
+			attackY = (int) player.getPy();
+			
+			g.fillOval(attackX + 1, attackY + 1, 5, 5);
+			
+			//System.out.println(attackX + " " + attackY);
+	}
+	
 	private void drawUI(Graphics2D g) {
         showFPS(g);
 
@@ -316,6 +362,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		start.setEnabled(false);
 		start.setVisible(false);
 		
+		startL.setEnabled(false);
+		startL.setVisible(false);
+		
 		load.setEnabled(false);
 		load.setVisible(false);
 		
@@ -327,6 +376,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		newBut.setVisible(false);
 		newBut.setEnabled(false);
 		
+		death.setVisible(false);
+		death.setEnabled(false);
+		
 		exit4.setVisible(false);
 		exit4.setEnabled(false);
 	}
@@ -334,6 +386,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public void clearVictory() { //clears the victory menu
 		newB.setEnabled(false);
 		newB.setVisible(false);
+		
+		victory.setEnabled(false);
+		victory.setVisible(false);
 		
 		exit3.setEnabled(false);
 		exit3.setVisible(false);
@@ -346,6 +401,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		save.setEnabled(false);
 		save.setVisible(false);
 		
+		pause.setEnabled(false);
+		pause.setVisible(false);
+		
 		exit2.setEnabled(false);
 		exit2.setVisible(false);	
 	}
@@ -353,6 +411,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public void revealPause() { //reveals the pause menu
 		resume.setEnabled(true);
 		resume.setVisible(true);
+		
+		pause.setEnabled(true);
+		pause.setVisible(true);
 		
 		save.setEnabled(true);
 		save.setVisible(true);
@@ -365,6 +426,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		newB.setVisible(true);
 		newB.setEnabled(true);
 		
+		victory.setVisible(true);
+		victory.setEnabled(true);
+		
 		exit3.setVisible(true);
 		exit3.setEnabled(true);
 	}
@@ -372,6 +436,9 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	public void revealDeath() { //reveals the death menu
 		newBut.setVisible(true);
 		newBut.setEnabled(true);
+		
+		death.setVisible(true);
+		death.setVisible(true);
 		
 		exit4.setVisible(true);
 		exit4.setEnabled(true);
@@ -454,7 +521,8 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	        
 	        if (code == KeyEvent.VK_Q) {
 	        	
-	        	player.attack = true;
+	        	attack = true;
+	        	
 	        }
 	    }
 
@@ -472,5 +540,11 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	    if (code == KeyEvent.VK_A) player.left = false;
 	    if (code == KeyEvent.VK_D) player.right = false;
 	    if (code == KeyEvent.VK_CONTROL) player.sprint = false;
+	    
+	    if (code == KeyEvent.VK_Q) {
+        	
+        	attack = false;
+        	
+        }
 	}
 }

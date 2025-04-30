@@ -72,7 +72,7 @@ public class Enemies extends Entity{
             ex += dx;
             ey += dy;
             
-            System.out.println("dx: " + dx + " dy: " + dy);
+            //System.out.println("dx: " + dx + " dy: " + dy);
         }
     }
     

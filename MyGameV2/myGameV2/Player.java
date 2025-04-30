@@ -11,7 +11,7 @@ public class Player extends Entity implements KeyListener {
     public double angle = 2 * Math.PI;
     public double MS = 1; // movement-speed
     public final double RS = .045; // rotation speed
-    public boolean left, right, forward, back, sprint, attack;
+    public boolean left, right, forward, back, sprint;
     private double dy;
     private double dx;
     private int stamina;
@@ -19,8 +19,6 @@ public class Player extends Entity implements KeyListener {
     private int mana;
     public int mx;
     public int my;
-    private int attackX;
-    private int attackY;
     
     // Collision
     public int[][] mp = new int[12][12]; // map position
@@ -52,23 +50,6 @@ public class Player extends Entity implements KeyListener {
     public void draw(Graphics g) {
         g.setColor(this.color);
         g.fillRect((int)px, (int)py, width, height);
-    }
-
-    public void drawAttack(Graphics g) {
-    	
-    	this.attack = false;
-    	
-    	 if(this.attack = true) {
- 			
- 			attackX = (int) px;
- 			attackY = (int) py;
- 			
- 			g.fillOval(attackX, attackY, 5, 5);
- 			
- 			//System.out.println(attackX + " " + attackY);
- 			
- 		}
-    	
     }
     
     @Override
@@ -157,7 +138,7 @@ public class Player extends Entity implements KeyListener {
                 stamina++;
             }
         }
-        System.out.printf("player at (%.2f, %.2f)\n", px, py);
+        //System.out.printf("player at (%.2f, %.2f)\n", px, py);
     }
     public int getPlayerMapX() {
     	
