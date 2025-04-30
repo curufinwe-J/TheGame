@@ -176,14 +176,14 @@ public class Camera {
                 finalY = vy;
                 int shade = (int)(255 / (2 + finalDist * 0.01));
                 shade = Math.max(0, Math.min(255, shade));
-                g2.setColor(new Color(shade/2 +20, shade/2 +20, shade/2 +20)); // vertical shade
+                g2.setColor(new Color(shade/2 +20, shade/2 +25, shade/2 +20)); // vertical shade
             } else {
                 finalDist = hDist;
                 finalX = hx;
                 finalY = hy;
                 int shade = (int)(255 / (2 + finalDist * 0.01));
                 shade = Math.max(0, Math.min(255, shade));
-                g2.setColor(new Color(shade/2 + 25, shade/2 + 25, shade/2 + 25)); // horizontal shade
+                g2.setColor(new Color(shade/2 + 25, shade/2 + 30, shade/2 + 25)); // horizontal shade
             }
             
             // Correct for fish-eye distortion
@@ -226,8 +226,8 @@ public class Camera {
                 // Simulate texture sampling with color shading
                 int shade = (int)(255 / (2 + rowDistance * 0.01));
                 shade = Math.max(0, Math.min(255, shade));
-                Color floorColor = new Color(shade/2+25, shade/2+25, shade/2+25);
-                Color ceilingColor = new Color(shade/2+25, shade/2+25, shade/2+25);
+                Color floorColor = new Color(shade/2+25, shade/2+30, shade/2+25);
+                Color ceilingColor = new Color(shade/2+25, shade/2+30, shade/2+25);
                 
                 g2.setColor(floorColor);
                 g2.fillRect(r * rayWidth, y, rayWidth, 1); // Floor
