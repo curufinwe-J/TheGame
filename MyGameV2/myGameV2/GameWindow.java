@@ -42,4 +42,8 @@ public class GameWindow extends JFrame{
 		win.game.start();
 		
 	}
+	
+	public int getWidth() { return width; }
+	public int getHeight() { return height; }
+	
 }
