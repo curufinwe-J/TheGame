@@ -162,10 +162,12 @@ public class Enemies extends Entity{
              }
         }
        
-        if (!visible) return; 
+        if (!visible) 
+        	return; 
+        
         g.drawImage(texture, destX, destY, destWidth, destHeight, null);
-        System.out.printf("Enemy at (%.2f, %.2f), distance: %.2f, angle: %.2f\n",
-                ex, ey, distance, relativeAngle);
+        //System.out.printf("Enemy at (%.2f, %.2f), distance: %.2f, angle: %.2f\n",
+                //ex, ey, distance, relativeAngle);
     }
     
     public double getEx() { return ex; }

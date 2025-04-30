@@ -247,7 +247,7 @@ public class Camera {
         g.setColor(Color.BLACK);
         g.fillRect(windowWidth - 160, 40, 120, 40);
         g.setColor(Color.GREEN);
-        g.fillRect(windowWidth - 150, 50, player.getStamina(), 20);
+        g.fillRect(windowWidth - 150, 50, player.getStamina()/2, 20);
         
         // Health bar
         g.setColor(Color.BLACK);

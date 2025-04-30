@@ -36,7 +36,7 @@ public class Player extends Entity implements KeyListener {
         this.color = color;
         this.mp = GameMap.map;
         this.mapS = GameMap.mapS;
-        stamina = 100;
+        stamina = 200;
         health = 100;
         mana = 100;
         calculateDirectionVectors();
@@ -127,13 +127,13 @@ public class Player extends Entity implements KeyListener {
         if(sprint) {
             if(stamina > 0) {
                 MS = 2;
-                stamina--;
+                stamina-=3;
             } else {
                 MS = 1;
             }
         }
         if(!sprint) {
-            if(stamina < 100) {
+            if(stamina < 200) {
                 MS = 1;
                 stamina++;
             }
