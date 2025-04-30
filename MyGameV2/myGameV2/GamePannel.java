@@ -35,6 +35,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 	private int mana;
 	private boolean teleport;
     public Label startL, victory, pause, death;
+    public Font font1, font2, font3;
 	
 	public static int gameState = 1;
 	
@@ -60,6 +61,10 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
         enemy = new Enemies(400, 400, TextureManager.getTexture("ghost"), 3.0, 5, true, 0.5, 3);
         
         setPos();
+        
+        font1 = new Font("Arial", Font.ITALIC, 36);
+        font2 = new Font("Arial", Font.ITALIC, 30);
+        font3 = new Font("Arial", Font.ITALIC, 36);
         
         camera = new Camera(player);
         
@@ -89,7 +94,8 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		exit1.addActionListener(this);
 		
 		startL.setAlignment(Label.CENTER);
-
+		startL.setFont(font1);
+		
 		start.setLayout(null);
 		load.setLayout(null);
 		exit1.setLayout(null);
@@ -164,6 +170,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		exit2.addActionListener(this);
 		
 		pause.setAlignment(Label.CENTER);
+		pause.setFont(font2);
 		
 		resume.setLayout(null);
 		save.setLayout(null);
@@ -195,6 +202,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		exit3.addActionListener(this);
 		
 		victory.setAlignment(Label.CENTER);
+		victory.setFont(font3);
 		
 		newB.setLayout(null);
 		exit3.setLayout(null);
@@ -222,6 +230,7 @@ public class GamePannel extends JPanel implements Runnable, ActionListener, KeyL
 		exit4.addActionListener(this);
 		
 		death.setAlignment(Label.CENTER);
+		death.setFont(font3);
 		
 		newBut.setLayout(null);
 		exit4.setLayout(null);
