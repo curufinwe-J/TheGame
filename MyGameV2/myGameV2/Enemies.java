@@ -65,7 +65,7 @@ public class Enemies extends Entity{
     	double distance = Math.sqrt(dx * dx + dy * dy);
     	
     	 // Normalize and move
-        if (distance > 0.1) { // Prevent jitter when very close
+        if (distance > 3) { // Prevent jitter when very close
             dx = (dx / distance) * speed;
             dy = (dy / distance) * speed;
 
@@ -118,7 +118,7 @@ public class Enemies extends Entity{
         
         // Calculate distance to enemy (for depth scaling)
         double distance = Math.sqrt(dx*dx + dy*dy);
-        distance = Math.max(distance, 0.5);
+        distance = Math.max(distance, 2);
         double correctedDistance = distance * Math.cos(relativeAngle);
         
         // Field of view in radians
@@ -132,7 +132,7 @@ public class Enemies extends Entity{
         
         // Calculate vertical position and size
         double scale = 2000 / distance;  // Adjust constant as needed
-        scale = Math.min(scale, 500);
+        scale = Math.min(scale, 125);
         double screenY = winHeight/2 - (eUp * scale);
         double size = Math.min(2000, scale * 20);  // Adjust base size as needed
         
@@ -150,13 +150,18 @@ public class Enemies extends Entity{
         
         // Basic z-buffer check before drawing
         boolean visible = false;
-        for (int x = 0; x < destWidth; x++) {
-            int sx = destX + x;
-            if (sx >= 0 && sx < zBuffer.length && correctedDistance < zBuffer[sx]) {
-                visible = true;
-                break;
-            }
+        if (distance < 5) {
+            // skip z-buffer check entirely
+        } else {
+        	 for (int x = 0; x < destWidth; x++) {
+                 int sx = destX + x;
+                 if (sx >= 0 && sx < zBuffer.length && correctedDistance < zBuffer[sx]) {
+                     visible = true;
+                     break;
+                 }
+             }
         }
+       
         if (!visible) return; 
         g.drawImage(texture, destX, destY, destWidth, destHeight, null);
         System.out.printf("Enemy at (%.2f, %.2f), distance: %.2f, angle: %.2f\n",
